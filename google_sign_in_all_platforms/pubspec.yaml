@@ -12,13 +12,13 @@ flutter:
       android:
         default_package: google_sign_in_all_platforms_android
       ios:
-        default_package: google_sign_in_all_platforms_ios
+        default_package: google_sign_in_all_platforms_android
       linux:
         default_package: google_sign_in_all_platforms_macos
       macos:
         default_package: google_sign_in_all_platforms_macos
       web:
-        default_package: google_sign_in_all_platforms_web
+        default_package: google_sign_in_all_platforms_android
       windows:
         default_package: google_sign_in_all_platforms_macos
 
@@ -27,14 +27,10 @@ dependencies:
     sdk: flutter
   google_sign_in_all_platforms_android:
     path: ../google_sign_in_all_platforms_android
-  google_sign_in_all_platforms_ios:
-    path: ../google_sign_in_all_platforms_ios
   google_sign_in_all_platforms_macos:
     path: ../google_sign_in_all_platforms_macos
   google_sign_in_all_platforms_platform_interface:
     path: ../google_sign_in_all_platforms_platform_interface
-  google_sign_in_all_platforms_web:
-    path: ../google_sign_in_all_platforms_web
 
 dev_dependencies:
   flutter_test:
