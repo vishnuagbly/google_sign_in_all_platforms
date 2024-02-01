@@ -6,7 +6,8 @@ import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platfo
 import 'package:http/http.dart' as http;
 
 /// The Android implementation of [GoogleSignInAllPlatformsInterface].
-class GoogleSignInAllPlatformsAndroid extends GoogleSignInAllPlatformsInterface {
+class GoogleSignInAllPlatformsAndroid
+    extends GoogleSignInAllPlatformsInterface {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel =
@@ -35,14 +36,32 @@ class GoogleSignInAllPlatformsAndroid extends GoogleSignInAllPlatformsInterface 
     super.init(params);
   }
 
-  @override
-  Future<http.Client?> signInOffline() async {
-    await _googleSignIn.signIn();
-    return _googleSignIn.authenticatedClient();
+  Future<GoogleSignInCredentials?> get _creds async {
+    final auth = await _googleSignIn.currentUser?.authentication;
+    final accessToken = auth?.accessToken;
+    if (accessToken == null) return null;
+
+    return GoogleSignInCredentials(
+      accessToken: accessToken,
+      scopes: params.scopes,
+      tokenType: 'Bearer',
+      idToken: auth?.idToken,
+    );
   }
 
   @override
-  Future<http.Client?> signInOnline() => signInOffline();
+  Future<GoogleSignInCredentials?> signInOffline() async {
+    await _googleSignIn.signIn();
+    return _creds;
+  }
+
+  @override
+  Future<GoogleSignInCredentials?> signInOnline() => signInOffline();
+
+  @override
+  Future<http.Client?> getAuthenticatedClient() {
+    return _googleSignIn.authenticatedClient();
+  }
 
   @override
   Future<void> signOut() async {

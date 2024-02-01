@@ -44,6 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   builder: (_) => FutureDialog(
                     future: _googleSignIn.signInOnline(),
+                    onData: (creds) {
+                      if (creds == null) {
+                        return const CommonAlertDialog(
+                          'Cannot Sign in',
+                          error: true,
+                        );
+                      }
+                      debugPrint('${creds.toJson()}');
+                      return const CommonAlertDialog('Successfully Signed in');
+                    },
                   ),
                 );
               },
