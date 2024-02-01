@@ -28,23 +28,26 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
   }
 
   HttpServer? _server;
-  http.Client? _authenticatedClient;
-  Completer<http.Client?>? _completer;
+  Completer<GoogleSignInCredentials?>? _completer;
+  GoogleSignInCredentials? __credentials;
 
   static const String _kAccessTokenCredsKey = 'access_token';
+  static const String _kRefreshTokenCredsKey = 'refresh_token';
+  static const String _kTokenTypeCredsKey = 'token_type';
   static const String _kScopeCredsKey = 'scope';
   static const String _kScopesSeparator = ' ';
   static const String _kLogName = 'GoogleSignInAllPlatformsMacOS';
 
   String get _redirectUri => 'http://localhost:${params.redirectPort}';
 
-  void _setAuthenticatedClient(http.Client? client) {
-    _authenticatedClient = client;
-    _completer?.complete(_authenticatedClient);
+  void _setCredentials(GoogleSignInCredentials credentials) {
+    __credentials = credentials;
+    _completer?.complete(credentials);
   }
 
+  GoogleSignInCredentials? get _credentials => __credentials;
+
   Future<Response> _handleAccessCodeRoute(Request request) async {
-    log('uri: ${request.url}', name: _kLogName);
     final code = request.requestedUri.queryParametersAll['code']?.first;
     await _getCredentialsFromAccessCode(code);
     return Response.ok(
@@ -65,43 +68,59 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
     );
 
     if (res.statusCode == 200) {
-      final creds = Map<String, dynamic>.from(jsonDecode(res.body) as Map);
-      await params.saveAccessToken.call(creds[_kAccessTokenCredsKey] as String);
-
-      log('from server creds: $creds', name: _kLogName);
-      _getAuthenticatedClient(creds);
+      final credsMap = Map<String, dynamic>.from(jsonDecode(res.body) as Map);
+      credsMap[_kScopeCredsKey] =
+          (credsMap[_kScopeCredsKey]! as String).split(' ');
+      final creds = GoogleSignInCredentials.fromJson(credsMap);
+      await params.saveAccessToken.call(jsonEncode(creds.toJson()));
+      _setCredentials(creds);
     }
   }
 
   @override
-  Future<http.Client?> signInOffline() async {
-    final token = await params.retrieveAccessToken.call();
-    if (token == null) return null;
+  Future<GoogleSignInCredentials?> signInOffline() async {
+    final credsJsonString = await params.retrieveAccessToken.call();
+    if (credsJsonString == null) return null;
 
-    final creds = <String, dynamic>{
-      _kAccessTokenCredsKey: token,
-      _kScopeCredsKey: params.scopes.join(_kScopesSeparator),
-    };
-
-    log('in storage creds: $creds', name: _kLogName);
-    return _getAuthenticatedClient(creds);
+    try {
+      final credsJson =
+          Map<String, dynamic>.from(jsonDecode(credsJsonString) as Map);
+      _setCredentials(GoogleSignInCredentials.fromJson(credsJson));
+      return _credentials!;
+    } catch (err) {
+      log('$err', name: _kLogName);
+      return null;
+    }
   }
 
-  http.Client _getAuthenticatedClient(Map<String, dynamic> creds) {
-    _setAuthenticatedClient(__getAuthenticatedClient(creds));
-    return _authenticatedClient!;
+  @override
+  Future<http.Client?> getAuthenticatedClient() async {
+    final credentials = _credentials;
+    if (credentials == null) return null;
+
+    final creds = <String, dynamic>{
+      _kAccessTokenCredsKey: credentials.accessToken,
+      _kScopeCredsKey:
+          (credentials.scopes.isEmpty ? params.scopes : credentials.scopes)
+              .join(_kScopesSeparator),
+      _kRefreshTokenCredsKey: credentials.refreshToken,
+      _kTokenTypeCredsKey: credentials.tokenType,
+    };
+
+    return __getAuthenticatedClient(creds);
   }
 
   static http.Client __getAuthenticatedClient(Map<String, dynamic> creds) {
     final accessToken = creds[_kAccessTokenCredsKey];
+    final refreshToken = creds[_kRefreshTokenCredsKey];
     final scopes = (creds[_kScopeCredsKey]! as String).split(' ');
     final accessCreds = gapis.AccessCredentials(
       gapis.AccessToken(
-        (creds['token_type'] ?? 'Bearer') as String,
+        (creds[_kTokenTypeCredsKey] ?? 'Bearer') as String,
         accessToken as String,
         DateTime.now().toUtc().add(const Duration(days: 365)),
       ),
-      null,
+      refreshToken as String?,
       scopes,
     );
     return gapis.authenticatedClient(http.Client(), accessCreds);
@@ -114,14 +133,12 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
   Future<void> _startServer(shelf_router.Router app) async {
     if (_server != null) return;
     _server = await io.serve(app.call, 'localhost', params.redirectPort);
-    log('Server Started!', name: _kLogName);
   }
 
   Future<void> _closeServer() async {
     try {
       await _server?.close();
       _server = null;
-      log('Server Closed!', name: _kLogName);
     } catch (err) {
       rethrow;
     }
@@ -144,22 +161,22 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
         .then((_) => _completer?.complete(null));
   }
 
-  Future<http.Client?> _waitForClient() async {
-    _completer = Completer<http.Client?>();
+  Future<GoogleSignInCredentials?> _waitForClient() async {
+    _completer = Completer<GoogleSignInCredentials?>();
     _completeOnTimeout();
-    final client = await _completer?.future;
+    final creds = await _completer?.future;
     _completer = null;
-    return client;
+    return creds;
   }
 
   @override
-  Future<http.Client?> signInOnline() async {
+  Future<GoogleSignInCredentials?> signInOnline() async {
     final app = _initializeRouter();
     await _startServer(app);
     _launchUrl();
 
-    final client = await _waitForClient();
-    if (client != null) return client;
+    final creds = await _waitForClient();
+    if (creds != null) return creds;
 
     await _closeServer();
 
@@ -169,6 +186,6 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
   @override
   Future<void> signOut() async {
     await params.deleteAccessToken();
-    _authenticatedClient = null;
+    __credentials = null;
   }
 }

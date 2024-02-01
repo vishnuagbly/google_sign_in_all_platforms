@@ -13,13 +13,19 @@ class GoogleSignIn {
   ///Performs Sign in using token stored in internal storage.
   ///Note:- For mobile devices, if it fails to sign in via stored token it will
   ///perform the online sign in process.
-  Future<http.Client?> signInOffline() {
+  Future<GoogleSignInCredentials?> signInOffline() {
     return GoogleSignInAllPlatformsInterface.instance.signInOffline();
   }
 
   ///Performs Sign in using online flow, for all platforms.
-  Future<http.Client?> signInOnline() {
+  Future<GoogleSignInCredentials?> signInOnline() {
     return GoogleSignInAllPlatformsInterface.instance.signInOnline();
+  }
+
+  ///Returns the authenticated http client. This should be called after the user
+  ///is signed in.
+  Future<http.Client?> get authenticatedClient {
+    return GoogleSignInAllPlatformsInterface.instance.getAuthenticatedClient();
   }
 
   ///Performs the Sign Out operation and also deletes the stored token.

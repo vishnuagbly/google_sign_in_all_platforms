@@ -1,8 +1,10 @@
+import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
 import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+export 'src/credentials.dart';
 export 'src/init_params.dart';
 
 /// The interface that implementations of google_sign_in_all_platforms must
@@ -59,11 +61,15 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   ///For Mobile and Web devices, this is the same as signInOnline, while it
   ///firsts check for an already existing token, and if not exists then perform
   ///the sign in online.
-  Future<Client?> signInOffline();
+  Future<GoogleSignInCredentials?> signInOffline();
 
   ///Use this to sign in using the online method, by retrieving new token from
   ///the api.
-  Future<Client?> signInOnline();
+  Future<GoogleSignInCredentials?> signInOnline();
+
+  ///Returns the authenticated http client. It should be called after the user
+  ///has signed in.
+  Future<Client?> getAuthenticatedClient();
 
   ///Use this to sign out the user, this will also remove the token stored in
   ///the local storage.
