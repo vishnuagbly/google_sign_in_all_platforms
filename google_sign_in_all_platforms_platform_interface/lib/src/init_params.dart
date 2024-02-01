@@ -4,10 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ///This class contains all the parameters that might be needed for performing
 ///the google sign in operation
-class InitParams {
+class GoogleSignInParams {
   ///This class contains all the parameters that might be needed for performing
   ///the google sign in operation.
-  const InitParams({
+  const GoogleSignInParams({
     this.timeout = const Duration(minutes: 1),
     this.saveAccessToken = _defaultSaveAccessToken,
     this.retrieveAccessToken = _defaultRetrieveAccessToken,
@@ -17,7 +17,7 @@ class InitParams {
       'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email',
     ],
-    this.redirectUrl = 'http://localhost:8000',
+    this.redirectPort = 8000,
     this.clientId,
     this.clientSecret,
   });
@@ -46,8 +46,8 @@ class InitParams {
   final List<String> scopes;
 
   ///Only used in case of Desktop, where on signing in, we need to provide a
-  ///redirect url, where the access code and more will be received.
-  final String redirectUrl;
+  ///redirect localhost port, where the access code and more will be received.
+  final int redirectPort;
 
   ///Required and Only used in case of Desktop.
   ///

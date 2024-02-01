@@ -27,7 +27,7 @@ class GoogleSignInAllPlatformsAndroid extends GoogleSignInAllPlatformsPlatform {
   }
 
   @override
-  void init(InitParams params) {
+  void init(GoogleSignInParams params) {
     __googleSignIn = GoogleSignIn(
       scopes: params.scopes,
       clientId: params.clientId,

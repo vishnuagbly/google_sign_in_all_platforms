@@ -36,21 +36,21 @@ abstract class GoogleSignInAllPlatformsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  InitParams? _params;
+  GoogleSignInParams? _params;
 
-  void _setParams(InitParams params) {
+  void _setParams(GoogleSignInParams params) {
     assert(_params == null, '__params is already not null');
     _params = params;
   }
 
-  ///Getter for [InitParams], required by each platform interfaces.
-  InitParams get params {
+  ///Getter for [GoogleSignInParams], required by each platform interfaces.
+  GoogleSignInParams get params {
     assert(_params != null, '__params is null');
     return _params!;
   }
 
   ///Initialize the parameters required for the plugin.
-  void init(InitParams params) => _setParams(params);
+  void init(GoogleSignInParams params) => _setParams(params);
 
   ///Use this to sign in using the access_token from the cache or internal
   ///storage. Therefore, can also be used to check if th user is already logged
