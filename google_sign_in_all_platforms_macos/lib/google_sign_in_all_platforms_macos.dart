@@ -35,17 +35,20 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsPlatform {
   static const String _kScopesSeparator = ' ';
   static const String _kLogName = 'GoogleSignInAllPlatformsMacOS';
 
+  String get _redirectUri => 'http://localhost:${params.redirectPort}';
+
   void _setAuthenticatedClient(http.Client? client) {
     _authenticatedClient = client;
     _completer?.complete(_authenticatedClient);
   }
 
-  Response _handleAccessCodeRoute(Request request) {
+  Future<Response> _handleAccessCodeRoute(Request request) async {
     log('uri: ${request.url}', name: _kLogName);
     final code = request.requestedUri.queryParametersAll['code']?.first;
-    _closeServer();
-    _getCredentialsFromAccessCode(code);
-    return Response.ok('Hello Useless Dev and Varun');
+    await _getCredentialsFromAccessCode(code);
+    return Response.ok(
+      'Successfully Authenticated, You may now close this tab',
+    );
   }
 
   Future<void> _getCredentialsFromAccessCode(String? code) async {
@@ -56,14 +59,13 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsPlatform {
         'client_secret': params.clientSecret,
         'code': code,
         'grant_type': 'authorization_code',
-        'redirect_uri': params.redirectUrl,
+        'redirect_uri': _redirectUri,
       }),
     );
 
     if (res.statusCode == 200) {
       final creds = Map<String, dynamic>.from(jsonDecode(res.body) as Map);
-      await params.saveAccessToken
-          .call(creds[_kAccessTokenCredsKey] as String);
+      await params.saveAccessToken.call(creds[_kAccessTokenCredsKey] as String);
 
       log('from server creds: $creds', name: _kLogName);
       _getAuthenticatedClient(creds);
@@ -110,7 +112,7 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsPlatform {
 
   Future<void> _startServer(shelf_router.Router app) async {
     if (_server != null) return;
-    _server = await io.serve(app.call, 'localhost', 8000);
+    _server = await io.serve(app.call, 'localhost', params.redirectPort);
     log('Server Started!', name: _kLogName);
   }
 
@@ -129,7 +131,7 @@ class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsPlatform {
       Uri.https('accounts.google.com', '/o/oauth2/v2/auth', {
         if (params.clientId != null) 'client_id': params.clientId,
         'response_type': 'code',
-        'redirect_uri': params.redirectUrl,
+        'redirect_uri': _redirectUri,
         'scope': params.scopes.join(_kScopesSeparator),
         'access_type': 'offline',
       }),
