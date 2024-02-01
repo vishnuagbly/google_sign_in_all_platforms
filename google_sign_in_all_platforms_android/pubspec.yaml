@@ -11,15 +11,24 @@ flutter:
     implements: google_sign_in_all_platforms
     platforms:
       android:
-        package: com.example.verygoodcore
+        package: com.vishnuworld.googlesigninallplatformscore
+        pluginClass: GoogleSignInAllPlatformsPlugin
+        dartPluginClass: GoogleSignInAllPlatformsAndroid
+      ios:
+        pluginClass: GoogleSignInAllPlatformsPlugin
+        dartPluginClass: GoogleSignInAllPlatformsAndroid
+      web:
         pluginClass: GoogleSignInAllPlatformsPlugin
         dartPluginClass: GoogleSignInAllPlatformsAndroid
 
 dependencies:
+  extension_google_sign_in_as_googleapis_auth: ^2.0.12
   flutter:
     sdk: flutter
+  google_sign_in: ^6.2.1
   google_sign_in_all_platforms_platform_interface:
     path: ../google_sign_in_all_platforms_platform_interface
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
