@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in_all_platforms_android/google_sign_in_all_platforms_android.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/google_sign_in_all_platforms_platform_interface.dart';
+import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ void main() {
 
     test('can be registered', () {
       GoogleSignInAllPlatformsAndroid.registerWith();
-      expect(GoogleSignInAllPlatformsPlatform.instance,
+      expect(GoogleSignInAllPlatformsInterface.instance,
           isA<GoogleSignInAllPlatformsAndroid>());
     });
 

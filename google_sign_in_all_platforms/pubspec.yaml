@@ -29,8 +29,8 @@ dependencies:
     path: ../google_sign_in_all_platforms_android
   google_sign_in_all_platforms_macos:
     path: ../google_sign_in_all_platforms_macos
-  google_sign_in_all_platforms_platform_interface:
-    path: ../google_sign_in_all_platforms_platform_interface
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
   http: ^1.2.0
 
 dev_dependencies:

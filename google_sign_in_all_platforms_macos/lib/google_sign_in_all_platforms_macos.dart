@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/google_sign_in_all_platforms_platform_interface.dart';
+import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:googleapis_auth/googleapis_auth.dart' as gapis;
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
@@ -13,17 +13,18 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:url_launcher/url_launcher.dart';
 
-/// The MacOS implementation of [GoogleSignInAllPlatformsPlatform].
-class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsPlatform {
+/// The MacOS implementation of [GoogleSignInAllPlatformsInterface].
+class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel =
       const MethodChannel('google_sign_in_all_platforms_macos');
 
   /// Registers this class as the default instance of
-  /// [GoogleSignInAllPlatformsPlatform]
+  /// [GoogleSignInAllPlatformsInterface]
   static void registerWith() {
-    GoogleSignInAllPlatformsPlatform.instance = GoogleSignInAllPlatformsMacOS();
+    GoogleSignInAllPlatformsInterface.instance =
+        GoogleSignInAllPlatformsMacOS();
   }
 
   HttpServer? _server;
