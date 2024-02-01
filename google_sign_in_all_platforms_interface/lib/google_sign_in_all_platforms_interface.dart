@@ -1,5 +1,5 @@
-import 'package:google_sign_in_all_platforms_platform_interface/src/init_params.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/src/method_channel_google_sign_in_all_platforms.dart';
+import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
+import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -13,25 +13,25 @@ export 'src/init_params.dart';
 /// Extending this class (using `extends`) ensures that the subclass will get
 /// the default implementation, while platform implementations that `implements`
 ///  this interface will be broken by newly added
-///  [GoogleSignInAllPlatformsPlatform] methods.
-abstract class GoogleSignInAllPlatformsPlatform extends PlatformInterface {
+///  [GoogleSignInAllPlatformsInterface] methods.
+abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   /// Constructs a GoogleSignInAllPlatformsPlatform.
-  GoogleSignInAllPlatformsPlatform() : super(token: _token);
+  GoogleSignInAllPlatformsInterface() : super(token: _token);
 
   static final Object _token = Object();
 
-  static GoogleSignInAllPlatformsPlatform _instance =
+  static GoogleSignInAllPlatformsInterface _instance =
       MethodChannelGoogleSignInAllPlatforms();
 
-  /// The default instance of [GoogleSignInAllPlatformsPlatform] to use.
+  /// The default instance of [GoogleSignInAllPlatformsInterface] to use.
   ///
   /// Defaults to [MethodChannelGoogleSignInAllPlatforms].
-  static GoogleSignInAllPlatformsPlatform get instance => _instance;
+  static GoogleSignInAllPlatformsInterface get instance => _instance;
 
   /// Platform-specific plugins should set this with their own platform-specific
-  /// class that extends [GoogleSignInAllPlatformsPlatform] when they register
+  /// class that extends [GoogleSignInAllPlatformsInterface] when they register
   /// themselves.
-  static set instance(GoogleSignInAllPlatformsPlatform instance) {
+  static set instance(GoogleSignInAllPlatformsInterface instance) {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
   }

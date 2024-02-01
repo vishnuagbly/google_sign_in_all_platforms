@@ -1,22 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/google_sign_in_all_platforms_platform_interface.dart';
+import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockGoogleSignInAllPlatformsPlatform extends Mock
+class MockGoogleSignInAllPlatformsInterface extends Mock
     with MockPlatformInterfaceMixin
-    implements GoogleSignInAllPlatformsPlatform {}
+    implements GoogleSignInAllPlatformsInterface {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('GoogleSignInAllPlatforms', () {
-    late GoogleSignInAllPlatformsPlatform googleSignInAllPlatformsPlatform;
+    late GoogleSignInAllPlatformsInterface googleSignInAllPlatformsInterface;
 
     setUp(() {
-      googleSignInAllPlatformsPlatform = MockGoogleSignInAllPlatformsPlatform();
-      GoogleSignInAllPlatformsPlatform.instance =
-          googleSignInAllPlatformsPlatform;
+      googleSignInAllPlatformsInterface =
+          MockGoogleSignInAllPlatformsInterface();
+      GoogleSignInAllPlatformsInterface.instance =
+          googleSignInAllPlatformsInterface;
     });
 
     group('getPlatformName', () {

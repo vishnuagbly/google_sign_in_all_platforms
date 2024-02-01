@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/src/method_channel_google_sign_in_all_platforms.dart';
+import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

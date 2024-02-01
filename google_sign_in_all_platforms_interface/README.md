@@ -1,4 +1,4 @@
-# google_sign_in_all_platforms_platform_interface
+# google_sign_in_all_platforms_interface
 
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 

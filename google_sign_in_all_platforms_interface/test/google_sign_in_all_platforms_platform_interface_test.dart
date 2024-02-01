@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_all_platforms_platform_interface/google_sign_in_all_platforms_platform_interface.dart';
+import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:http/src/client.dart';
 
-class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsPlatform {
+class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
   static const mockPlatformName = 'Mock';
 
   @override
@@ -27,18 +27,18 @@ class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsPlatform {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('GoogleSignInAllPlatformsPlatformInterface', () {
-    late GoogleSignInAllPlatformsPlatform googleSignInAllPlatformsPlatform;
+    late GoogleSignInAllPlatformsInterface googleSignInAllPlatformsPlatform;
 
     setUp(() {
       googleSignInAllPlatformsPlatform = GoogleSignInAllPlatformsMock();
-      GoogleSignInAllPlatformsPlatform.instance =
+      GoogleSignInAllPlatformsInterface.instance =
           googleSignInAllPlatformsPlatform;
     });
 
     group('getPlatformName', () {
       test('returns correct name', () async {
         expect(
-          await GoogleSignInAllPlatformsPlatform.instance.signInOnline(),
+          await GoogleSignInAllPlatformsInterface.instance.signInOnline(),
           equals(GoogleSignInAllPlatformsMock.mockPlatformName),
         );
       });
