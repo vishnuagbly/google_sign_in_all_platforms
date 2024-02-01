@@ -7,11 +7,13 @@ void main() {
   const kPlatformName = 'platformName';
 
   group('$MethodChannelGoogleSignInAllPlatforms', () {
-    late MethodChannelGoogleSignInAllPlatforms methodChannelGoogleSignInAllPlatforms;
+    late MethodChannelGoogleSignInAllPlatforms
+        methodChannelGoogleSignInAllPlatforms;
     final log = <MethodCall>[];
 
     setUp(() async {
-      methodChannelGoogleSignInAllPlatforms = MethodChannelGoogleSignInAllPlatforms();
+      methodChannelGoogleSignInAllPlatforms =
+          MethodChannelGoogleSignInAllPlatforms();
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
         methodChannelGoogleSignInAllPlatforms.methodChannel,
@@ -30,7 +32,8 @@ void main() {
     tearDown(log.clear);
 
     test('getPlatformName', () async {
-      final platformName = await methodChannelGoogleSignInAllPlatforms.getPlatformName();
+      final platformName =
+          await methodChannelGoogleSignInAllPlatforms.signInOffline();
       expect(
         log,
         <Matcher>[isMethodCall('getPlatformName', arguments: null)],
