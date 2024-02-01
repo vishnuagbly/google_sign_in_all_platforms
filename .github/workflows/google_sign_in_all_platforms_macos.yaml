@@ -1,0 +1,26 @@
+name: google_sign_in_all_platforms_macos
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/google_sign_in_all_platforms_macos.yaml"
+      - "google_sign_in_all_platforms_macos/**"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/google_sign_in_all_platforms_macos.yaml"
+      - "google_sign_in_all_platforms_macos/**"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_channel: stable
+      flutter_version: 3.13.2
+      working_directory: google_sign_in_all_platforms_macos
+
