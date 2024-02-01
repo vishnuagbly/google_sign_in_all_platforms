@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class InitParams {
   ///This class contains all the parameters that might be needed for performing
   ///the google sign in operation.
-  InitParams({
+  const InitParams({
     this.timeout = const Duration(minutes: 1),
     this.saveAccessToken = _defaultSaveAccessToken,
     this.retrieveAccessToken = _defaultRetrieveAccessToken,
