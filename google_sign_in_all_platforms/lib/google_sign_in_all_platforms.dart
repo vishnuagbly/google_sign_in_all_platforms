@@ -1,11 +1,30 @@
 import 'package:google_sign_in_all_platforms_platform_interface/google_sign_in_all_platforms_platform_interface.dart';
+import 'package:http/http.dart' as http;
 
-GoogleSignInAllPlatformsPlatform get _platform =>
-    GoogleSignInAllPlatformsPlatform.instance;
+export 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
 
-/// Returns the name of the current platform.
-Future<String> getPlatformName() async {
-  final platformName = await _platform.getPlatformName();
-  if (platformName == null) throw Exception('Unable to get platform name.');
-  return platformName;
+///Use this class to perform all types of Google OAuth operations.
+class GoogleSignIn {
+
+  ///Use this class to perform all types of Google OAuth operations.
+  GoogleSignIn({InitParams params = const InitParams()}) {
+    GoogleSignInAllPlatformsPlatform.instance.init(params);
+  }
+
+  ///Performs Sign in using token stored in internal storage.
+  ///Note:- For mobile devices, if it fails to sign in via stored token it will
+  ///perform the online sign in process.
+  Future<http.Client?> signInOffline() {
+    return GoogleSignInAllPlatformsPlatform.instance.signInOffline();
+  }
+
+  ///Performs Sign in using online flow, for all platforms.
+  Future<http.Client?> signInOnline() {
+    return GoogleSignInAllPlatformsPlatform.instance.signInOnline();
+  }
+
+  ///Performs the Sign Out operation and also deletes the stored token.
+  Future<void> signOut() {
+    return GoogleSignInAllPlatformsPlatform.instance.signOut();
+  }
 }
