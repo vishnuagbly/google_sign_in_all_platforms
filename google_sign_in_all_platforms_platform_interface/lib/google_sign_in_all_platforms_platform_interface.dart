@@ -1,4 +1,5 @@
 import 'package:google_sign_in_all_platforms_platform_interface/src/method_channel_google_sign_in_all_platforms.dart';
+import 'package:http/http.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// The interface that implementations of google_sign_in_all_platforms must
@@ -32,6 +33,20 @@ abstract class GoogleSignInAllPlatformsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Return the current platform name.
-  Future<String?> getPlatformName();
+  ///Use this to sign in using the access_token from the cache or internal
+  ///storage. Therefore, can also be used to check if th user is already logged
+  ///in or not.
+  ///
+  ///For Mobile and Web devices, this is the same as signInOnline, while it
+  ///firsts check for an already existing token, and if not exists then perform
+  ///the sign in online.
+  Future<Client?> signInOffline();
+
+  ///Use this to sign in using the online method, by retrieving new token from
+  ///the api.
+  Future<Client?> signInOnline();
+
+  ///Use this to sign out the user, this will also remove the token stored in
+  ///the local storage.
+  Future<void> signOut();
 }
