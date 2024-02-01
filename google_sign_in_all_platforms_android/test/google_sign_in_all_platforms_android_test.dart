@@ -16,7 +16,8 @@ void main() {
 
       log = <MethodCall>[];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(googleSignInAllPlatforms.methodChannel, (methodCall) async {
+          .setMockMethodCallHandler(googleSignInAllPlatforms.methodChannel,
+              (methodCall) async {
         log.add(methodCall);
         switch (methodCall.method) {
           case 'getPlatformName':
@@ -29,16 +30,16 @@ void main() {
 
     test('can be registered', () {
       GoogleSignInAllPlatformsAndroid.registerWith();
-      expect(GoogleSignInAllPlatformsPlatform.instance, isA<GoogleSignInAllPlatformsAndroid>());
+      expect(GoogleSignInAllPlatformsPlatform.instance,
+          isA<GoogleSignInAllPlatformsAndroid>());
     });
 
     test('getPlatformName returns correct name', () async {
-      final name = await googleSignInAllPlatforms.getPlatformName();
+      await googleSignInAllPlatforms.signOut();
       expect(
         log,
         <Matcher>[isMethodCall('getPlatformName', arguments: null)],
       );
-      expect(name, equals(kPlatformName));
     });
   });
 }

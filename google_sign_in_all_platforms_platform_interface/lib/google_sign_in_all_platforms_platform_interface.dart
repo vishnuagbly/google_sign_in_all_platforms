@@ -1,6 +1,9 @@
+import 'package:google_sign_in_all_platforms_platform_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_platform_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+export 'src/init_params.dart';
 
 /// The interface that implementations of google_sign_in_all_platforms must
 /// implement.
@@ -32,6 +35,22 @@ abstract class GoogleSignInAllPlatformsPlatform extends PlatformInterface {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
+
+  InitParams? _params;
+
+  void _setParams(InitParams params) {
+    assert(_params == null, '__params is already not null');
+    _params = params;
+  }
+
+  ///Getter for [InitParams], required by each platform interfaces.
+  InitParams get params {
+    assert(_params != null, '__params is null');
+    return _params!;
+  }
+
+  ///Initialize the parameters required for the plugin.
+  void init(InitParams params) => _setParams(params);
 
   ///Use this to sign in using the access_token from the cache or internal
   ///storage. Therefore, can also be used to check if th user is already logged
