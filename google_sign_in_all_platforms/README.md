@@ -9,8 +9,15 @@ This package provides a main class as [GoogleSignIn], Currently we have mainly 4
 - signOut
 - authenticatedClient
 
-Documentation for each method is provided with the package only (i.e with code itself above each
-method using '///' comments).
+Documentation for each method is provided with the package only.
+
+## Configuration
+
+This package uses the [google_sign_in](https://pub.dev/packages/google_sign_in) package for Mobile
+and Web Platforms, and [url_launcher](https://pub.dev/packages/url_launcher) for all platforms.
+
+Therefore, follow instructions mentioned in both above packages to configure this package for your
+platform.
 
 ## Usage
 
