@@ -1,7 +1,7 @@
 name: google_sign_in_all_platforms_android
 description: Android implementation of the google_sign_in_all_platforms plugin
-version: 0.1.0+1
-publish_to: none
+version: 0.0.1
+homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_android
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -27,8 +27,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^6.2.1
-  google_sign_in_all_platforms_interface:
-    path: ../google_sign_in_all_platforms_interface
+  google_sign_in_all_platforms_interface: ^0.0.1
   http: ^1.2.0
 
 dev_dependencies:
