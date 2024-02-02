@@ -27,10 +27,9 @@ dependencies:
     sdk: flutter
   google_sign_in_all_platforms_android:
     path: ../google_sign_in_all_platforms_android
+  google_sign_in_all_platforms_interface: ^0.0.1
   google_sign_in_all_platforms_macos:
     path: ../google_sign_in_all_platforms_macos
-  google_sign_in_all_platforms_interface:
-    path: ../google_sign_in_all_platforms_interface
   http: ^1.2.0
 
 dev_dependencies:
