@@ -1,7 +1,7 @@
 name: google_sign_in_all_platforms_macos
 description: MacOS implementation of the google_sign_in_all_platforms plugin
 version: 0.0.1
-publish_to: none
+homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_macos
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
