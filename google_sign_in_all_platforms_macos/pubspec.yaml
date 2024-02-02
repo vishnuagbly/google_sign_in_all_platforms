@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms_macos
 description: MacOS implementation of the google_sign_in_all_platforms plugin
-version: 0.1.0+1
+version: 0.0.1
 publish_to: none
 
 environment:
@@ -23,8 +23,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_interface:
-    path: ../google_sign_in_all_platforms_interface
+  google_sign_in_all_platforms_interface: ^0.0.1
   googleapis_auth: ^1.4.1
   http: ^1.2.0
   shelf: ^1.4.1
