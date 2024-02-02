@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_all_platforms_macos/google_sign_in_all_platforms_macos.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
+import 'package:google_sign_in_all_platforms_macos/google_sign_in_all_platforms_macos.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,12 +30,13 @@ void main() {
 
     test('can be registered', () {
       GoogleSignInAllPlatformsMacOS.registerWith();
-      expect(GoogleSignInAllPlatformsInterface.instance,
-          isA<GoogleSignInAllPlatformsMacOS>());
+      expect(
+        GoogleSignInAllPlatformsInterface.instance,
+        isA<GoogleSignInAllPlatformsMacOS>(),
+      );
     });
 
     test('getPlatformName returns correct name', () async {
-      final name = await googleSignInAllPlatforms.signOut();
       expect(
         log,
         <Matcher>[isMethodCall('getPlatformName', arguments: null)],
