@@ -15,7 +15,7 @@ flutter:
         pluginClass: GoogleSignInAllPlatformsPlugin
         dartPluginClass: GoogleSignInAllPlatformsMacOS
       windows:
-        pluginClass: GoogleSignInAllPlatformsPlugin
+        pluginClass: GoogleSignInAllPlatformsWindows
         dartPluginClass: GoogleSignInAllPlatformsMacOS
       linux:
         pluginClass: GoogleSignInAllPlatformsPlugin
