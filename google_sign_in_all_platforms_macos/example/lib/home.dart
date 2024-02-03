@@ -1,3 +1,4 @@
+import 'package:example/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in_all_platforms_macos/google_sign_in_all_platforms_macos.dart';
 
@@ -15,7 +16,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _googleSignIn.init(
-      const GoogleSignInParams(),
+      const GoogleSignInParams(
+          clientId: kGoogleClientId,
+          clientSecret: kGoogleClientSecret,
+          redirectPort: kGoogleRedirectUriPort,
+          scopes: kGoogleSignInScopes),
     );
     super.initState();
   }
@@ -25,16 +30,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Windows Example')),
       body: Center(
-        child: Column(
-          children: [
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                _signedIn = true;
-              },
-              child: Text(_signedIn ? 'Sign Out' : 'Sign In'),
-            ),
-          ],
+        child: ElevatedButton(
+          onPressed: () async {
+            if (!_signedIn) {
+              final creds = await _googleSignIn.signInOnline();
+              if (creds == null) return;
+            } else {
+              await _googleSignIn.signOut();
+            }
+            setState(() {
+              _signedIn = !_signedIn;
+            });
+          },
+          child: Text(_signedIn ? 'Sign Out' : 'Sign In'),
         ),
       ),
     );
