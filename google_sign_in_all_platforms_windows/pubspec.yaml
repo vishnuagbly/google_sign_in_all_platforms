@@ -1,0 +1,27 @@
+name: google_sign_in_all_platforms_windows
+description: Windows implementation of the google_sign_in_all_platforms plugin
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+flutter:
+  plugin:
+    implements: google_sign_in_all_platforms
+    platforms:
+      windows:
+        pluginClass: GoogleSignInAllPlatformsWindows
+        dartPluginClass: GoogleSignInAllPlatformsWindows
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_sign_in_all_platforms_interface: ^0.0.1
+  google_sign_in_all_platforms_macos:
+    path: ../google_sign_in_all_platforms_macos
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^5.1.0
