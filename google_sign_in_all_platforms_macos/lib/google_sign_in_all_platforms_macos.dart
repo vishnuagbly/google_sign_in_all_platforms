@@ -13,6 +13,8 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:url_launcher/url_launcher.dart';
 
+export 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
+
 /// The MacOS implementation of [GoogleSignInAllPlatformsInterface].
 class GoogleSignInAllPlatformsMacOS extends GoogleSignInAllPlatformsInterface {
   /// The method channel used to interact with the native platform.
