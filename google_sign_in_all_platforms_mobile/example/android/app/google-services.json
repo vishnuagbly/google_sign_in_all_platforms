@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "408934099762",
+    "project_id": "gsap-mobile-example-app",
+    "storage_bucket": "gsap-mobile-example-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408934099762:android:07c327174fd976c0d2852b",
+        "android_client_info": {
+          "package_name": "com.vishnuworld.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAB79Uijbc6w4nARItOpMxl6Q9A_7OEv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408934099762:android:67c4bd5d1ecea704d2852b",
+        "android_client_info": {
+          "package_name": "com.vishnuworld.google_sign_in_all_platforms_mobile_example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAB79Uijbc6w4nARItOpMxl6Q9A_7OEv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

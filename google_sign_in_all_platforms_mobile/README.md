@@ -1,0 +1,3 @@
+# google_sign_in_all_platforms_mobile
+
+Mobile Implementation of google_sign_in_all_platforms.
