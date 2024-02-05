@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms_desktop
 description: Desktop implementation of google_sign_in_all_platforms
-version: 0.0.1
+version: 0.0.1+1
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_desktop
 
 environment:
