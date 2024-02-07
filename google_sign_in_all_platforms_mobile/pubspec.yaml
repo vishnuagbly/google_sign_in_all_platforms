@@ -1,5 +1,5 @@
 name: google_sign_in_all_platforms_mobile
-description: "A new Flutter project."
+description: Mobile Platform Implementation for google_sign_in_all_platforms
 version: 0.0.1
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_mobile
 
@@ -52,6 +52,10 @@ flutter:
         fileName: google_sign_in_all_platforms_mobile_web.dart
         dartPluginClass: GoogleSignInAllPlatformsMobile
 
+false_secrets:
+  - example/android/app/google-services.json
+  - example/ios/Runner/GoogleService-Info.plist
+  - example/lib/firebase_options.dart
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
