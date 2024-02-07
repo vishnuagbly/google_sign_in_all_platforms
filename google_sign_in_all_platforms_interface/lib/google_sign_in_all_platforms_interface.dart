@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
 import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
@@ -53,6 +55,17 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
 
   ///Initialize the parameters required for the plugin.
   void init(GoogleSignInParams params) => _setParams(params);
+
+  bool get _isDesktop =>
+      Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+
+  ///This method first tries executing [signInOffline] method, if
+  ///unsuccessful, then executes [signInOnline] method.
+  Future<GoogleSignInCredentials?> signIn() async {
+    var creds = await signInOffline();
+    if (creds == null && _isDesktop) creds = await signInOnline();
+    return creds;
+  }
 
   ///Use this to sign in using the access_token from the cache or internal
   ///storage. Therefore, can also be used to check if th user is already logged
