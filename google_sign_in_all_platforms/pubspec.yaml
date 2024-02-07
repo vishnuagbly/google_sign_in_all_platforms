@@ -11,24 +11,24 @@ flutter:
   plugin:
     platforms:
       android:
-        default_package: google_sign_in_all_platforms_android
+        default_package: google_sign_in_all_platforms_mobile
       ios:
-        default_package: google_sign_in_all_platforms_android
+        default_package: google_sign_in_all_platforms_mobile
       linux:
         default_package: google_sign_in_all_platforms_desktop
       macos:
         default_package: google_sign_in_all_platforms_desktop
       web:
-        default_package: google_sign_in_all_platforms_android
+        default_package: google_sign_in_all_platforms_mobile
       windows:
         default_package: google_sign_in_all_platforms_desktop
 
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_android: ^0.0.1
   google_sign_in_all_platforms_desktop: ^0.0.1+1
   google_sign_in_all_platforms_interface: ^0.0.1
+  google_sign_in_all_platforms_mobile: ^0.0.1
   http: ^1.2.0
 
 dev_dependencies:
