@@ -1,6 +1,6 @@
+import 'package:example/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
-import 'package:google_sign_in_all_platforms_example/secrets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

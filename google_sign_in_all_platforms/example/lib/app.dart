@@ -1,5 +1,5 @@
+import 'package:example/home.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in_all_platforms_example/home.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
