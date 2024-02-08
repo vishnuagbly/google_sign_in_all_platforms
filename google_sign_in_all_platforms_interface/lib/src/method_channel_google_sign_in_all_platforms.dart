@@ -6,7 +6,7 @@ import 'package:http/src/client.dart';
 
 /// An implementation of [GoogleSignInAllPlatformsInterface] that uses method channels.
 class MethodChannelGoogleSignInAllPlatforms extends GoogleSignInAllPlatformsInterface {
-  /// The method channel used to interact with the native platform.
+  /// The method channel used to interact with the native platform.dart.
   @visibleForTesting
   final methodChannel = const MethodChannel('google_sign_in_all_platforms');
 

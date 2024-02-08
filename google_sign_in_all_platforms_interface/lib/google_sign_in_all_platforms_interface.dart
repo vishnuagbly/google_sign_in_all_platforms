@@ -1,12 +1,13 @@
-import 'dart:io';
-
 import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
+import 'package:google_sign_in_all_platforms_interface/src/extensions/platform.dart'
+    as g_platform;
 import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 export 'src/credentials.dart';
+export 'src/extensions/platform.dart';
 export 'src/init_params.dart';
 
 /// The interface that implementations of google_sign_in_all_platforms must
@@ -15,8 +16,8 @@ export 'src/init_params.dart';
 /// Platform implementations should extend this class
 /// rather than implement it as `GoogleSignInAllPlatforms`.
 /// Extending this class (using `extends`) ensures that the subclass will get
-/// the default implementation, while platform implementations that `implements`
-///  this interface will be broken by newly added
+/// the default implementation, while platform.dart implementations that
+/// `implements` this interface will be broken by newly added
 ///  [GoogleSignInAllPlatformsInterface] methods.
 abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   /// Constructs a GoogleSignInAllPlatformsPlatform.
@@ -32,9 +33,9 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   /// Defaults to [MethodChannelGoogleSignInAllPlatforms].
   static GoogleSignInAllPlatformsInterface get instance => _instance;
 
-  /// Platform-specific plugins should set this with their own platform-specific
-  /// class that extends [GoogleSignInAllPlatformsInterface] when they register
-  /// themselves.
+  /// Platform-specific plugins should set this with their own platform
+  /// dart-specific class that extends [GoogleSignInAllPlatformsInterface] when
+  /// they register themselves.
   static set instance(GoogleSignInAllPlatformsInterface instance) {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
@@ -47,7 +48,7 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
     _params = params;
   }
 
-  ///Getter for [GoogleSignInParams], required by each platform interfaces.
+  ///Getter for [GoogleSignInParams], required by each platform.dart interfaces.
   GoogleSignInParams get params {
     assert(_params != null, '__params is null');
     return _params!;
@@ -56,14 +57,11 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   ///Initialize the parameters required for the plugin.
   void init(GoogleSignInParams params) => _setParams(params);
 
-  bool get _isDesktop =>
-      Platform.isWindows || Platform.isMacOS || Platform.isLinux;
-
   ///This method first tries executing [signInOffline] method, if
   ///unsuccessful, then executes [signInOnline] method.
   Future<GoogleSignInCredentials?> signIn() async {
     var creds = await signInOffline();
-    if (creds == null && _isDesktop) creds = await signInOnline();
+    if (creds == null && g_platform.isDesktop) creds = await signInOnline();
     return creds;
   }
 
