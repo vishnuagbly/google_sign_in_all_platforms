@@ -1,3 +1,7 @@
+## 0.0.4
+
+Added asserts to [GoogleSignIn] class, for platform specific params requirements.
+
 ## 0.0.3
 
 Added new method [signIn], which executes [signInOffline] first, then executes [signInOnline].

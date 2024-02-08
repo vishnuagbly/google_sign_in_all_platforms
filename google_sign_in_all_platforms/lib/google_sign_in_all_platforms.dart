@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:http/http.dart' as http;
 
@@ -6,7 +8,16 @@ export 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platfo
 ///Use this class to perform all types of Google OAuth operations.
 class GoogleSignIn {
   ///Use this class to perform all types of Google OAuth operations.
-  GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()}) {
+  GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()})
+      : assert(
+          !isDesktop ||
+              (params.clientSecret != null && params.clientId != null),
+          'For Desktop, clientSecret and clientId cannot be null',
+        ),
+        assert(
+          !Platform.isAndroid || params.clientId != null,
+          'For Android, clientId cannot be null',
+        ) {
     GoogleSignInAllPlatformsInterface.instance.init(params);
   }
 
