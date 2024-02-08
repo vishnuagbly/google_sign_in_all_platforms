@@ -1,3 +1,7 @@
+## 0.0.3
+
+Added new method [signIn], which executes [signInOffline] first, then executes [signInOnline].
+
 ## 0.0.2
 
 Removed [google_sign_in_all_platforms_macos] and instead

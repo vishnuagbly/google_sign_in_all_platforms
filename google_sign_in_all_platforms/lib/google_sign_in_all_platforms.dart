@@ -10,6 +10,12 @@ class GoogleSignIn {
     GoogleSignInAllPlatformsInterface.instance.init(params);
   }
 
+  ///Executes [signInOffline] first, and if unsuccessful, it executes
+  ///[signInOnline].
+  Future<GoogleSignInCredentials?> signIn() {
+    return GoogleSignInAllPlatformsInterface.instance.signIn();
+  }
+
   ///Performs Sign in using token stored in internal storage.
   ///Note:- For mobile devices, if it fails to sign in via stored token it will
   ///perform the online sign in process.
