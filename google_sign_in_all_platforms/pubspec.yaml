@@ -37,3 +37,8 @@ dev_dependencies:
   mocktail: ^1.0.0
   plugin_platform_interface: ^2.1.6
   very_good_analysis: ^5.1.0
+
+false_secrets:
+  - example/android/app/google-services.json
+  - example/ios/Runner/GoogleService-Info.plist
+  - example/lib/firebase_options.dart
