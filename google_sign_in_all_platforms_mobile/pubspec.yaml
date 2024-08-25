@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms_mobile
 description: Mobile Platform Implementation for google_sign_in_all_platforms
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_mobile
 
 environment:
