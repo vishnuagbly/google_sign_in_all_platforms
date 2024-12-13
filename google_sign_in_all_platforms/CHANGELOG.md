@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+Fixed issues with all platforms, now working with every platform (Except Linux), in example app.
+
 ## 0.0.4
 
 Added asserts to [GoogleSignIn] class, for platform specific params requirements.
