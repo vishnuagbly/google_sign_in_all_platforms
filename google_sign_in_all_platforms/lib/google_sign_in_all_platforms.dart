@@ -10,12 +10,12 @@ class GoogleSignIn {
   ///Use this class to perform all types of Google OAuth operations.
   GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()})
       : assert(
-          !isDesktop ||
-              (params.clientSecret != null && params.clientId != null),
+          (params.clientSecret != null && params.clientId != null) ||
+              !isDesktop,
           'For Desktop, clientSecret and clientId cannot be null',
         ),
         assert(
-          !Platform.isAndroid || params.clientId != null,
+          params.clientId != null || !Platform.isAndroid,
           'For Android, clientId cannot be null',
         ) {
     GoogleSignInAllPlatformsInterface.instance.init(params);
