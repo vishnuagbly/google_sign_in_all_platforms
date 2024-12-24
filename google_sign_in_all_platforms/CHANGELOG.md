@@ -1,3 +1,7 @@
+## 1.0.1
+
+Updated README to be more detailed.
+
 ## 1.0.0
 
 Fixed issues with all platforms, now working with every platform (Except Linux), in example app.
