@@ -1,3 +1,7 @@
+## 1.0.2
+
+Updated README to be include installation guide of "google_sign_in" and "url_launcher" as well.
+
 ## 1.0.1
 
 Updated README to be more detailed.

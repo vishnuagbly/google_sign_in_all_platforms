@@ -2,7 +2,9 @@
 
 [![pub package](https://img.shields.io/pub/v/google_sign_in_all_platforms.svg)](https://pub.dev/packages/google_sign_in_all_platforms)
 
-A Flutter plugin for Google Sign-In across all platforms including Mobile, Web, and Desktop. This package leverages the [google_sign_in](https://pub.dev/packages/google_sign_in) package for Mobile and Web Platforms, and [url_launcher](https://pub.dev/packages/url_launcher) for all platforms.
+A Flutter plugin for Google Sign-In across all platforms including Mobile, Web, and Desktop. This
+package leverages the [google_sign_in](https://pub.dev/packages/google_sign_in) package for Mobile
+and Web Platforms, and [url_launcher](https://pub.dev/packages/url_launcher) for all platforms.
 
 ## Table of Contents
 
@@ -28,6 +30,10 @@ Then run:
 ```sh
 flutter pub get
 ```
+
+Also follow the installation guide mentioned in
+both [google_sign_in](https://pub.dev/packages/google_sign_in)
+and [url_launcher](https://pub.dev/packages/url_launcher).
 
 ## Usage
 
@@ -100,22 +106,26 @@ class _SignInDemoState extends State<SignInDemo> {
 
 ## GoogleSignInParams
 
-This class contains all the parameters that might be needed for performing the Google sign-in operation.
+This class contains all the parameters that might be needed for performing the Google sign-in
+operation.
 
 ### Parameters
 
-- `timeout`: The total time to wait for the user to log in on Desktop platforms. Default is 1 minute.
+- `timeout`: The total time to wait for the user to log in on Desktop platforms. Default is 1
+  minute.
 - `saveAccessToken`: A function to save the access token locally on Desktop platforms.
 - `retrieveAccessToken`: A function to retrieve the stored access token on Desktop platforms.
 - `deleteAccessToken`: A function to delete the stored access token on Desktop platforms.
 - `scopes`: A list of OAuth2.0 scopes. Default includes `userinfo.profile` and `userinfo.email`.
-- `redirectPort`: The localhost port for receiving the access code on Desktop platforms. Default is 8000.
+- `redirectPort`: The localhost port for receiving the access code on Desktop platforms. Default is
+  8000.
 - `clientId`: The Google Project Client ID, required for Desktop platforms.
 - `clientSecret`: The Google Project Client Secret, required for Desktop platforms.
 
 ### Example
 
 ```dart
+
 GoogleSignInParams params = GoogleSignInParams(
   timeout: Duration(minutes: 2),
   saveAccessToken: (token) async {
@@ -145,19 +155,24 @@ This class is used to perform all types of Google OAuth operations.
 
 ### Constructor
 
-- `GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()})`: Initializes the GoogleSignIn instance with the provided parameters.
+- `GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()})`: Initializes the
+  GoogleSignIn instance with the provided parameters.
 
 ### Methods
 
-- `Future<GoogleSignInCredentials?> signIn()`: Executes `signInOffline` first, and if unsuccessful, executes `signInOnline`.
-- `Future<GoogleSignInCredentials?> signInOffline()`: Performs sign-in using the token stored in internal storage. Falls back to online sign-in on mobile devices if offline sign-in fails.
+- `Future<GoogleSignInCredentials?> signIn()`: Executes `signInOffline` first, and if unsuccessful,
+  executes `signInOnline`.
+- `Future<GoogleSignInCredentials?> signInOffline()`: Performs sign-in using the token stored in
+  internal storage. Falls back to online sign-in on mobile devices if offline sign-in fails.
 - `Future<GoogleSignInCredentials?> signInOnline()`: Performs online sign-in for all platforms.
-- `Future<http.Client?> get authenticatedClient`: Returns the authenticated HTTP client. Should be called after the user is signed in.
+- `Future<http.Client?> get authenticatedClient`: Returns the authenticated HTTP client. Should be
+  called after the user is signed in.
 - `Future<void> signOut()`: Performs the sign-out operation and deletes the stored token.
 
 ### Example
 
 ```dart
+
 GoogleSignIn googleSignIn = GoogleSignIn(
   params: GoogleSignInParams(
     clientId: 'YOUR_CLIENT_ID',
@@ -183,9 +198,11 @@ Future<void> performSignOut() async {
 
 ## Feedback
 
-We welcome feedback and contributions to this project. You can provide feedback in the following ways:
+We welcome feedback and contributions to this project. You can provide feedback in the following
+ways:
 
-- **GitHub Issues**: Report issues or suggest features on our [GitHub Issues page](https://github.com/vishnuagbly/google_sign_in_all_platforms/issues).
+- **GitHub Issues**: Report issues or suggest features on
+  our [GitHub Issues page](https://github.com/vishnuagbly/google_sign_in_all_platforms/issues).
 - **Email**: Send your feedback or queries to [vishnuagbly@gmail.com](mailto:vishnuagbly@gmail.com).
 
 Thank you for using Google Sign In All Platforms!
