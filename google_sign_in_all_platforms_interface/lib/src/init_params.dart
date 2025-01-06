@@ -19,6 +19,7 @@ class GoogleSignInParams {
     this.redirectPort = 8000,
     this.clientId,
     this.clientSecret,
+    this.customPostAuthPage,
   });
 
   static const _kTokenKey = 'token';
@@ -57,6 +58,10 @@ class GoogleSignInParams {
   ///
   ///Google Project Client Secret, it should of "web' type.
   final String? clientSecret;
+
+  ///The HTML for the page that is shown to the user after they have
+  ///authenticated successfully.
+  final String? customPostAuthPage;
 
   static Future<void> _defaultSaveAccessToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

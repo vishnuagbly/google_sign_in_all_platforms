@@ -54,7 +54,20 @@ class GoogleSignInAllPlatformsDesktop
     final code = request.requestedUri.queryParametersAll['code']?.first;
     await _getCredentialsFromAccessCode(code);
     return Response.ok(
-      'Successfully Authenticated, You may now close this tab',
+      params.customPostAuthPage ??
+          '''<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Successfully Authenticated</title>
+  </head>
+  <body>
+    <h2 style="text-align: center">Successfully Authenticated</h2>
+    <p style="text-align: center">You may now close this tab.</p>
+  </body>
+</html>''',
+      headers: {'content-type': 'text/html'},
+      encoding: utf8,
     );
   }
 
