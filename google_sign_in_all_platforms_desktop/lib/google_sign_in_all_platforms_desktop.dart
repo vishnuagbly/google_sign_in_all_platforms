@@ -40,6 +40,8 @@ class GoogleSignInAllPlatformsDesktop
   static const String _kScopeCredsKey = 'scope';
   static const String _kScopesSeparator = ' ';
   static const String _kLogName = 'GoogleSignInAllPlatformsMacOS';
+w  static const String _kDefaultPostAuthPagePath =
+      'packages/google_sign_in_all_platforms_desktop/assets/post_auth_page.html';
 
   String get _redirectUri => 'http://localhost:${params.redirectPort}';
 
@@ -53,19 +55,11 @@ class GoogleSignInAllPlatformsDesktop
   Future<Response> _handleAccessCodeRoute(Request request) async {
     final code = request.requestedUri.queryParametersAll['code']?.first;
     await _getCredentialsFromAccessCode(code);
+    final htmlContent = params.customPostAuthPage ??
+        await rootBundle.loadString(_kDefaultPostAuthPagePath);
+
     return Response.ok(
-      params.customPostAuthPage ??
-          '''<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Successfully Authenticated</title>
-  </head>
-  <body>
-    <h2 style="text-align: center">Successfully Authenticated</h2>
-    <p style="text-align: center">You may now close this tab.</p>
-  </body>
-</html>''',
+      htmlContent,
       headers: {'content-type': 'text/html'},
       encoding: utf8,
     );
