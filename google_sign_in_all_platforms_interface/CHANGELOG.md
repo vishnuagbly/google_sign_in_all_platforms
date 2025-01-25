@@ -1,3 +1,6 @@
+## 0.0.6
+Added [GoogleSignInParams.customPostAuthPage] to allow custom page after successful sign in.
+
 ## 0.0.5
 
 Removed asserts from [GoogleSignInParams] and made it 'const' again.
