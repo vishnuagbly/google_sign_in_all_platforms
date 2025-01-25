@@ -40,7 +40,7 @@ class GoogleSignInAllPlatformsDesktop
   static const String _kScopeCredsKey = 'scope';
   static const String _kScopesSeparator = ' ';
   static const String _kLogName = 'GoogleSignInAllPlatformsMacOS';
-w  static const String _kDefaultPostAuthPagePath =
+  static const String _kDefaultPostAuthPagePath =
       'packages/google_sign_in_all_platforms_desktop/assets/post_auth_page.html';
 
   String get _redirectUri => 'http://localhost:${params.redirectPort}';
