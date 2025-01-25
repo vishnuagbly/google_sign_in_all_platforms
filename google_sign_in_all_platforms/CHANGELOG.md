@@ -1,3 +1,8 @@
+## 1.1.0
+
+Added a new customPostAuthPage parameter to GoogleSignInParams, to allow for a custom page to be
+shown after the user has signed in.
+
 ## 1.0.2
 
 Updated README to be include installation guide of "google_sign_in" and "url_launcher" as well.
