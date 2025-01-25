@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_interface: ^0.0.1
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
   googleapis_auth: ^1.4.1
   http: ^1.2.0
   plugin_platform_interface: ^2.0.2
