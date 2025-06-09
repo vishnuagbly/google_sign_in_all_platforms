@@ -1,3 +1,6 @@
+## 1.1.1
+Added Instructions to obtain Credentials in README.
+
 ## 1.1.0
 
 Added a new customPostAuthPage parameter to GoogleSignInParams, to allow for a custom page to be
