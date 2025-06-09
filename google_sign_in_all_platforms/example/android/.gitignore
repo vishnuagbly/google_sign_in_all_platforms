@@ -11,3 +11,4 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+/app/.cxx/Debug/3222j6i2/
