@@ -113,6 +113,47 @@ This class contains all the parameters that might be needed for performing the G
 - `clientId`: The Google Project Client ID, required for Desktop platforms.
 - `clientSecret`: The Google Project Client Secret, required for Desktop platforms.
 
+Certainly! Here's a clean and well-structured version of your instructions for the README, with a clear heading and chronological steps:
+
+---
+
+### How to Get Google OAuth Credentials
+
+To use Google OAuth in your application, you need to create OAuth 2.0 credentials (Client ID and Client Secret) from the Google Cloud Console. Follow these steps:
+
+1. **Go to the Google Cloud Console**
+   Open [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) and sign in with your Google account.
+
+2. **Set up the OAuth Consent Screen**
+   Before creating credentials, you must configure the OAuth consent screen:
+
+   * Select your project (or create a new one, if not already created for your app).
+   * Navigate to **"OAuth consent screen"** in the sidebar.
+   * Choose **"External"** for user type (recommended for most cases).
+   * Fill in the required information (App name, user support email, etc.).
+   * Save and continue through the steps until the setup is complete.
+
+3. **Create OAuth 2.0 Credentials**
+
+   * Go to **"Credentials"** in the sidebar.
+   * Click **"Create Credentials"** → **"OAuth client ID"**.
+   * Choose **"Web application"** as the application type.
+   * You can leave **"Authorized JavaScript origins"** empty.
+   * Under **"Authorized redirect URIs"**, add:
+
+     ```
+     http://localhost:<redirectPort>
+     ```
+
+     By default, `<redirectPort>` is `8000`, so the URI would typically be:
+
+     ```
+     http://localhost:8000
+     ```
+
+4. **Copy the Client ID and Client Secret**
+   After creation, you’ll receive your **Client ID** and **Client Secret**. Use these in your application’s configuration as required.
+
 ### Example
 
 ```dart
