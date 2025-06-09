@@ -1,3 +1,6 @@
+## 1.2.0
+Removed the assert no longer necessary assert, for client id to be "NOT null" in case of android platform.
+
 ## 1.1.1
 Added Instructions to obtain Credentials in README.
 
