@@ -13,10 +13,6 @@ class GoogleSignIn {
           (params.clientSecret != null && params.clientId != null) ||
               !isDesktop,
           'For Desktop, clientSecret and clientId cannot be null',
-        ),
-        assert(
-          params.clientId != null || !Platform.isAndroid,
-          'For Android, clientId cannot be null',
         ) {
     GoogleSignInAllPlatformsInterface.instance.init(params);
   }
