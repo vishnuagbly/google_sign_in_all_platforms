@@ -65,7 +65,7 @@ class _SignInDemoState extends State<SignInDemo> {
       params: GoogleSignInParams(
         clientId: 'YOUR_CLIENT_ID',
         clientSecret: 'YOUR_CLIENT_SECRET',
-        redirectPort: 3000,
+        redirectPort: 8000,
       ),
     );
   }
@@ -112,10 +112,6 @@ This class contains all the parameters that might be needed for performing the G
 - `redirectPort`: The localhost port for receiving the access code on Desktop platforms. Default is 8000.
 - `clientId`: The Google Project Client ID, required for Desktop platforms.
 - `clientSecret`: The Google Project Client Secret, required for Desktop platforms.
-
-Certainly! Here's a clean and well-structured version of your instructions for the README, with a clear heading and chronological steps:
-
----
 
 ### How to Get Google OAuth Credentials
 
@@ -174,7 +170,7 @@ GoogleSignInParams params = GoogleSignInParams(
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/drive',
   ],
-  redirectPort: 3000,
+  redirectPort: 8000,
   clientId: 'YOUR_CLIENT_ID',
   clientSecret: 'YOUR_CLIENT_SECRET',
 );
@@ -203,7 +199,7 @@ GoogleSignIn googleSignIn = GoogleSignIn(
   params: GoogleSignInParams(
     clientId: 'YOUR_CLIENT_ID',
     clientSecret: 'YOUR_CLIENT_SECRET',
-    redirectPort: 3000,
+    redirectPort: 8000,
   ),
 );
 
