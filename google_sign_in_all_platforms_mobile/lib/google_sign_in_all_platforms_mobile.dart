@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -9,63 +12,107 @@ export 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platfo
 
 /// The Android implementation of [GoogleSignInAllPlatformsInterface].
 class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
-  /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel =
       const MethodChannel('google_sign_in_all_platforms_mobile');
 
-  /// Registers this class as the default instance of
-  /// [GoogleSignInAllPlatformsInterface]
+  // Hold the singleton and its initialization future
+  GoogleSignIn get _signIn => GoogleSignIn.instance;
+  Future<void>? _initializationFuture;
+
   static void registerWith() {
     GoogleSignInAllPlatformsInterface.instance =
         GoogleSignInAllPlatformsMobile();
   }
 
-  GoogleSignIn? __googleSignIn;
-
-  GoogleSignIn get _googleSignIn {
-    assert(__googleSignIn != null, 'The GoogleSignIn is not initialized');
-    return __googleSignIn!;
-  }
+  GoogleSignInClientAuthorization? _clientAuth;
 
   @override
   void init(GoogleSignInParams params) {
-    __googleSignIn = GoogleSignIn(
-      scopes: params.scopes,
-      clientId: params.clientId,
-    );
     super.init(params);
-  }
-
-  Future<GoogleSignInCredentials?> get _creds async {
-    final auth = await _googleSignIn.currentUser?.authentication;
-    final accessToken = auth?.accessToken;
-    if (accessToken == null) return null;
-
-    return GoogleSignInCredentials(
-      accessToken: accessToken,
-      scopes: params.scopes,
-      tokenType: 'Bearer',
-      idToken: auth?.idToken,
-    );
+    // initialise once; do not await here
+    _initializationFuture ??=
+        _signIn.initialize(serverClientId: params.clientId);
   }
 
   @override
   Future<GoogleSignInCredentials?> signInOffline() async {
-    await _googleSignIn.signIn();
-    return _creds;
+    final credsJsonString = await params.retrieveAccessToken.call();
+    if (credsJsonString != null) {
+      try {
+        final credsJson =
+            Map<String, dynamic>.from(jsonDecode(credsJsonString) as Map);
+        return GoogleSignInCredentials.fromJson(credsJson);
+      } catch (err) {
+        log('$err', name: 'signInOffline');
+      }
+    }
+
+    if (_initializationFuture != null) await _initializationFuture;
+
+    late final GoogleSignInAccount user;
+
+    try {
+      final lastUser = await _signIn.attemptLightweightAuthentication();
+      if (lastUser != null) {
+        user = lastUser;
+      } else {
+        throw PlatformException(
+            code: 'NO_PREVIOUS_SIGN_IN',
+            message:
+                'No previous sign-in found for lightweight authentication');
+      }
+    } catch (err) {
+      user = await _signIn.authenticate(scopeHint: params.scopes);
+    }
+
+    // Try to get authorisation silently; if not authorised, prompt the user
+    _clientAuth =
+        await user.authorizationClient.authorizationForScopes(params.scopes);
+    _clientAuth ??=
+        await user.authorizationClient.authorizeScopes(params.scopes);
+
+    final accessToken = _clientAuth?.accessToken;
+    final idToken = user.authentication.idToken;
+    if (accessToken == null) {
+      return null; // no access token available
+    }
+
+    final creds = GoogleSignInCredentials(
+      accessToken: accessToken,
+      scopes: params.scopes,
+      tokenType: 'Bearer',
+      idToken: idToken,
+    );
+
+    await params.saveAccessToken.call(jsonEncode(creds.toJson()));
+
+    return creds;
   }
 
   @override
   Future<GoogleSignInCredentials?> signInOnline() => signInOffline();
 
   @override
-  Future<http.Client?> getAuthenticatedClient() {
-    return _googleSignIn.authenticatedClient();
+
+  /// For mobile, there is no need to await, hence can also be called like this:
+  /// ```dart
+  /// final authClient = unawaited(getAuthenticatedClient());
+  /// ```
+  Future<http.Client?> getAuthenticatedClient() async {
+    // Return an authenticated HTTP client if we have authorisation
+    final auth = _clientAuth;
+    if (auth != null) {
+      // authClient comes from the extension_google_sign_in_as_googleapis_auth package
+      return auth.authClient(scopes: params.scopes);
+    }
+    return null;
   }
 
   @override
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    await params.deleteAccessToken();
+    await _signIn.signOut();
+    _clientAuth = null;
   }
 }

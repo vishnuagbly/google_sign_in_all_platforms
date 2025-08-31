@@ -8,19 +8,19 @@ environment:
   flutter: '>=3.3.0'
 
 dependencies:
-  extension_google_sign_in_as_googleapis_auth: ^2.0.12
+  extension_google_sign_in_as_googleapis_auth: ^3.0.0
   flutter:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.1.1
   google_sign_in_all_platforms_interface: ^0.0.1
   http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
