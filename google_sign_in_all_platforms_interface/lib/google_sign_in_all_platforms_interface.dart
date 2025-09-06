@@ -60,9 +60,7 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   ///This method first tries executing [signInOffline] method, if
   ///unsuccessful, then executes [signInOnline] method.
   Future<GoogleSignInCredentials?> signIn() async {
-    var creds = await signInOffline();
-    if (creds == null && g_platform.isDesktop) creds = await signInOnline();
-    return creds;
+    return (await signInOffline()) ?? await signInOnline();
   }
 
   ///Use this to sign in using the access_token from the cache or internal

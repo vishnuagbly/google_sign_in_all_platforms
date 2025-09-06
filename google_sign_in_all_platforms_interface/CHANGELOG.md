@@ -1,3 +1,8 @@
+## 0.1.0
+Updated signIn method to try signInOnline in case of mobile platforms as well.
+This is because with the latest update in google_sign_in package, we only get signInOnline option,
+while signInOffline is handled on the app level.
+
 ## 0.0.6
 Added [GoogleSignInParams.customPostAuthPage] to allow custom page after successful sign in.
 
