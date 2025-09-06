@@ -47,7 +47,11 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
         log('$err', name: 'signInOffline');
       }
     }
+    return null;
+  }
 
+  @override
+  Future<GoogleSignInCredentials?> signInOnline() async {
     if (_initializationFuture != null) await _initializationFuture;
 
     late final GoogleSignInAccount user;
@@ -60,7 +64,7 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
         throw PlatformException(
             code: 'NO_PREVIOUS_SIGN_IN',
             message:
-                'No previous sign-in found for lightweight authentication');
+            'No previous sign-in found for lightweight authentication');
       }
     } catch (err) {
       user = await _signIn.authenticate(scopeHint: params.scopes);
@@ -89,9 +93,6 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
 
     return creds;
   }
-
-  @override
-  Future<GoogleSignInCredentials?> signInOnline() => signInOffline();
 
   @override
 
