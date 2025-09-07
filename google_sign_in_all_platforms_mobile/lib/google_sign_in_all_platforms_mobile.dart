@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
@@ -47,7 +47,11 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
         log('$err', name: 'signInOffline');
       }
     }
+    return null;
+  }
 
+  @override
+  Future<GoogleSignInCredentials?> signInOnline() async {
     if (_initializationFuture != null) await _initializationFuture;
 
     late final GoogleSignInAccount user;
@@ -91,9 +95,6 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() => signInOffline();
-
-  @override
 
   /// For mobile, there is no need to await, hence can also be called like this:
   /// ```dart
@@ -114,5 +115,10 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
     await params.deleteAccessToken();
     await _signIn.signOut();
     _clientAuth = null;
+  }
+
+  @override
+  Widget? signInButton({GSIAPButtonConfig? config}) {
+    throw UnimplementedError("signInButton is not available on Mobile");
   }
 }
