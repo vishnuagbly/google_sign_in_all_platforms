@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
@@ -64,7 +64,7 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
         throw PlatformException(
             code: 'NO_PREVIOUS_SIGN_IN',
             message:
-            'No previous sign-in found for lightweight authentication');
+                'No previous sign-in found for lightweight authentication');
       }
     } catch (err) {
       user = await _signIn.authenticate(scopeHint: params.scopes);
@@ -115,5 +115,10 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
     await params.deleteAccessToken();
     await _signIn.signOut();
     _clientAuth = null;
+  }
+
+  @override
+  Widget? signInButton({GSIAPButtonConfig? config}) {
+    throw UnimplementedError("signInButton is not available on Mobile");
   }
 }

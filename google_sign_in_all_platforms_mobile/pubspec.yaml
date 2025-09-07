@@ -7,6 +7,8 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
   flutter: '>=3.3.0'
 
+publish_to: none
+
 dependencies:
   extension_google_sign_in_as_googleapis_auth: ^3.0.0
   flutter:
@@ -14,7 +16,8 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   google_sign_in: ^7.1.1
-  google_sign_in_all_platforms_interface: ^0.0.1
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
   http: ^1.2.0
 
 dev_dependencies:
@@ -46,10 +49,6 @@ flutter:
         dartPluginClass: GoogleSignInAllPlatformsMobile
       ios:
         pluginClass: GoogleSignInAllPlatformsMobilePlugin
-        dartPluginClass: GoogleSignInAllPlatformsMobile
-      web:
-        pluginClass: GoogleSignInAllPlatformsMobileWeb
-        fileName: google_sign_in_all_platforms_mobile_web.dart
         dartPluginClass: GoogleSignInAllPlatformsMobile
 
 false_secrets:
