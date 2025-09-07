@@ -1,6 +1,4 @@
 import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
-import 'package:google_sign_in_all_platforms_interface/src/extensions/platform.dart'
-    as g_platform;
 import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
