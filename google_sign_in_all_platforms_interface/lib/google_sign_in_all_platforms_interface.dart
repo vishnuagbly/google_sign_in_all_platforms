@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
+import 'package:google_sign_in_all_platforms_interface/src/gsiap_button_config.dart';
 import 'package:google_sign_in_all_platforms_interface/src/init_params.dart';
 import 'package:google_sign_in_all_platforms_interface/src/method_channel_google_sign_in_all_platforms.dart';
 import 'package:http/http.dart';
@@ -6,6 +8,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 export 'src/credentials.dart';
 export 'src/extensions/platform.dart';
+export 'src/gsiap_button_config.dart';
 export 'src/init_params.dart';
 
 /// The interface that implementations of google_sign_in_all_platforms must
@@ -60,6 +63,9 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   Future<GoogleSignInCredentials?> signIn() async {
     return (await signInOffline()) ?? await signInOnline();
   }
+
+  ///Use this to get the sign in button widget, only for Web platform.
+  Widget? signInButton({GSIAPButtonConfig? config});
 
   ///Use this to sign in using the access_token from the cache or internal
   ///storage. Therefore, can also be used to check if th user is already logged
