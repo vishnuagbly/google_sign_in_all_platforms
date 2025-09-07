@@ -1,4 +1,16 @@
+## 0.1.0
+
+### BREAKING CHANGES
+- Earlier `signIn` would only do `signInOffline` for mobile, since, both were same, for mobile, 
+though now, added explicit check to call `signInOnline` in case of null from offline method.
+
+### Enhancements
+- **Web Platform Support**: Added comprehensive web platform support with Google Sign-In button integration
+- **GSIAPButtonConfig**: Introduced new `GSIAPButtonConfig` class for configuring Google Sign-In buttons on web platforms
+- **signInButton Method**: Added `signInButton()` method to the interface for web platform button rendering
+
 ## 0.0.6
+
 Added [GoogleSignInParams.customPostAuthPage] to allow custom page after successful sign in.
 
 ## 0.0.5

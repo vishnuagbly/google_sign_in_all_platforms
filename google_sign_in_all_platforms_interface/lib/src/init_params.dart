@@ -30,16 +30,16 @@ class GoogleSignInParams {
   ///server is closed, and user might have restart the whole process.
   final Duration timeout;
 
-  ///Only used in case of Desktop, where after receiving the token,
-  ///we want to save the token locally.
+  ///Used for after receiving the token, we want to save the token in the local
+  ///storage / cache.
   final Future<void> Function(String) saveAccessToken;
 
-  ///Only used in case of Desktop, where on signing in online, we need
-  ///to retrieve the already stored access token from the internal storage.
+  ///Used for, when signing in offline, we need to retrieve the already stored
+  ///access token from the internal storage.
   final Future<String?> Function() retrieveAccessToken;
 
-  ///Only used in case of Desktop, where on signing out, we need to remove the
-  ///already stored access token from the internal storage.
+  ///Used for, when signing out, we need to remove the already stored access
+  ///token from the internal storage.
   final Future<void> Function() deleteAccessToken;
 
   ///Passed on to Google OAuth2.0 scopes parameter.
