@@ -1,5 +1,5 @@
 name: google_sign_in_all_platforms_web
-description: "A new Flutter plugin project."
+description: Web Platform Implementation for google_sign_in_all_platforms
 version: 0.0.1
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_web
 
