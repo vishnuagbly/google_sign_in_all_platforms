@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:googleapis_auth/googleapis_auth.dart' as gapis;
@@ -197,5 +197,10 @@ class GoogleSignInAllPlatformsDesktop
   Future<void> signOut() async {
     await params.deleteAccessToken();
     __credentials = null;
+  }
+
+  @override
+  Widget? signInButton({GSIAPButtonConfig? config}) {
+    throw UnimplementedError("Not available on Desktop");
   }
 }
