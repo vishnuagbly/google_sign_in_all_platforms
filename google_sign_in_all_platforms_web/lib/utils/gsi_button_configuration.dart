@@ -5,28 +5,28 @@ abstract class GSIAPButtonConfigUtils {
   static GSIButtonConfiguration fromJson(Map<String, dynamic> json) {
     return GSIButtonConfiguration(
       type: GSIButtonType.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonType.${json['type']}',
+        (e) => e.toString() == 'GSIButtonType.${json['type']}',
         orElse: () => GSIButtonType.standard,
       ),
       theme: GSIButtonTheme.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonTheme.${json['theme']}',
+        (e) => e.toString() == 'GSIButtonTheme.${json['theme']}',
         orElse: () => GSIButtonTheme.filledBlue,
       ),
       size: GSIButtonSize.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonSize.${json['size']}',
+        (e) => e.toString() == 'GSIButtonSize.${json['size']}',
         orElse: () => GSIButtonSize.medium,
       ),
       text: GSIButtonText.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonText.${json['text']}',
+        (e) => e.toString() == 'GSIButtonText.${json['text']}',
         orElse: () => GSIButtonText.signinWith,
       ),
       shape: GSIButtonShape.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonShape.${json['shape']}',
+        (e) => e.toString() == 'GSIButtonShape.${json['shape']}',
         orElse: () => GSIButtonShape.rectangular,
       ),
       logoAlignment: GSIButtonLogoAlignment.values.firstWhere(
-            (e) =>
-        e.toString() == 'GSIButtonLogoAlignment.${json['logoAlignment']}',
+        (e) =>
+            e.toString() == 'GSIButtonLogoAlignment.${json['logoAlignment']}',
         orElse: () => GSIButtonLogoAlignment.left,
       ),
       minimumWidth: json['minimumWidth'] as double?,
@@ -37,28 +37,28 @@ abstract class GSIAPButtonConfigUtils {
   static GSIButtonConfiguration fromGSIAP(GSIAPButtonUiConfig config) {
     return GSIButtonConfiguration(
       type: GSIButtonType.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonType.${config.type?.name}',
+        (e) => e.toString() == 'GSIButtonType.${config.type?.name}',
         orElse: () => GSIButtonType.standard,
       ),
       theme: GSIButtonTheme.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonTheme.${config.theme?.name}',
+        (e) => e.toString() == 'GSIButtonTheme.${config.theme?.name}',
         orElse: () => GSIButtonTheme.filledBlue,
       ),
       size: GSIButtonSize.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonSize.${config.size?.name}',
+        (e) => e.toString() == 'GSIButtonSize.${config.size?.name}',
         orElse: () => GSIButtonSize.medium,
       ),
       text: GSIButtonText.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonText.${config.text?.name}',
+        (e) => e.toString() == 'GSIButtonText.${config.text?.name}',
         orElse: () => GSIButtonText.signinWith,
       ),
       shape: GSIButtonShape.values.firstWhere(
-            (e) => e.toString() == 'GSIButtonShape.${config.shape?.name}',
+        (e) => e.toString() == 'GSIButtonShape.${config.shape?.name}',
         orElse: () => GSIButtonShape.rectangular,
       ),
       logoAlignment: GSIButtonLogoAlignment.values.firstWhere(
-            (e) =>
-        e.toString() ==
+        (e) =>
+            e.toString() ==
             'GSIButtonLogoAlignment.${config.logoAlignment?.name}',
         orElse: () => GSIButtonLogoAlignment.left,
       ),
