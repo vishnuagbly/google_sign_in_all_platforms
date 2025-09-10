@@ -28,7 +28,6 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsInterface {
   Future<void>? _initFuture;
   StreamSubscription<GoogleSignInAuthenticationEvent>? _authSub;
 
-  GoogleSignInAccount? _user;
   GoogleSignInClientAuthorization? _clientAuth;
 
   void Function(GoogleSignInCredentials)? onSignIn;
@@ -42,14 +41,12 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsInterface {
     // Listen for sign-in/out events; this is how web reports auth changes.
     _authSub ??= _signIn.authenticationEvents.listen((evt) {
       if (evt is GoogleSignInAuthenticationEventSignIn) {
-        _user = evt.user;
         _genCreds(evt.user).then((creds) {
           if (creds != null) {
             onSignIn?.call(creds);
           }
         });
       } else {
-        _user = null;
         _clientAuth = null;
         onSignOut?.call();
       }
@@ -149,7 +146,6 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsInterface {
   Future<void> signOut() async {
     await params.deleteAccessToken.call();
     await _signIn.signOut();
-    _user = null;
     _clientAuth = null;
   }
 }
