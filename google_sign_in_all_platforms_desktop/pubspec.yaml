@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms_desktop
 description: Desktop implementation of google_sign_in_all_platforms
-version: 0.0.2
+version: 0.1.0
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms_desktop
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_interface: ^0.0.6
+  google_sign_in_all_platforms_interface: ^0.1.0
   googleapis_auth: ^1.4.1
   http: ^1.2.0
   plugin_platform_interface: ^2.0.2
