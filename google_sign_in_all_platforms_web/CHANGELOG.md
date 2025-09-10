@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+First Implementation of GoogleSignInAllPlatformsWeb, for using google_sign_in 7.x.x version.
