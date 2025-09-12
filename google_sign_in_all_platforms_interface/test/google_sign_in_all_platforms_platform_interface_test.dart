@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
-import 'package:google_sign_in_all_platforms_interface/src/credentials.dart';
 import 'package:http/src/client.dart';
 
 class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
