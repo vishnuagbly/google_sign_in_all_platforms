@@ -2,6 +2,7 @@ import 'package:example/secrets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
+import 'package:googleapis/people/v1.dart' as people;
 import 'components/profile_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var _signedIn = false;
-  GoogleSignInCredentials? _credentials;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     params: const GoogleSignInParams(
@@ -34,11 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ProfileCard(
-                googleSignIn: _googleSignIn,
-                isSignedIn: _signedIn,
-                credentials: _credentials,
-              ),
+               ProfileCard(
+                 isSignedIn: _signedIn,
+                 fetchPerson: _signedIn ? _fetchPerson : null,
+               ),
               const SizedBox(height: 20),
               if (_signedIn)
                 _buildSignOutButton()
@@ -77,6 +76,26 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<people.Person> _fetchPerson() async {
+    // Get authenticated HTTP client from GoogleSignIn
+    final authClient = await _googleSignIn.authenticatedClient;
+    
+    if (authClient == null) {
+      throw Exception('Failed to get authenticated client');
+    }
+
+    // Create People API client
+    final peopleApi = people.PeopleServiceApi(authClient);
+
+    // Fetch user profile data
+    final person = await peopleApi.people.get(
+      'people/me',
+      personFields: 'names,emailAddresses,photos',
+    );
+
+    return person;
+  }
+
   Future<void> _signOut() async {
     await _googleSignIn.signOut();
     _updateAuthState(null);
@@ -85,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void _updateAuthState(GoogleSignInCredentials? creds) {
     setState(() {
       _signedIn = creds != null;
-      _credentials = creds;
     });
   }
 }

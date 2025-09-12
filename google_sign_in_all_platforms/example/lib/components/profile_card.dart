@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
 import 'package:googleapis/people/v1.dart' as people;
 
 // Data model for user profile
@@ -15,16 +14,16 @@ class UserProfile {
   });
 }
 
+typedef FetchPersonFunction = Future<people.Person> Function();
+
 class ProfileCard extends StatefulWidget {
-  final GoogleSignIn googleSignIn;
   final bool isSignedIn;
-  final GoogleSignInCredentials? credentials;
+  final FetchPersonFunction? fetchPerson;
 
   const ProfileCard({
     super.key,
-    required this.googleSignIn,
     required this.isSignedIn,
-    this.credentials,
+    this.fetchPerson,
   });
 
   @override
@@ -39,7 +38,7 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   void initState() {
     super.initState();
-    if (widget.isSignedIn && widget.credentials != null) {
+    if (widget.isSignedIn && widget.fetchPerson != null) {
       _fetchUserProfile();
     }
   }
@@ -48,7 +47,7 @@ class _ProfileCardState extends State<ProfileCard> {
   void didUpdateWidget(ProfileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Fetch profile when signing in
-    if (!oldWidget.isSignedIn && widget.isSignedIn && widget.credentials != null) {
+    if (!oldWidget.isSignedIn && widget.isSignedIn && widget.fetchPerson != null) {
       _fetchUserProfile();
     }
     // Clear profile when signing out
@@ -62,27 +61,16 @@ class _ProfileCardState extends State<ProfileCard> {
   }
 
   Future<void> _fetchUserProfile() async {
+    if (widget.fetchPerson == null) return;
+
     setState(() {
       _isLoadingProfile = true;
       _errorMessage = null;
     });
 
     try {
-      // Get authenticated HTTP client from GoogleSignIn
-      final authClient = await widget.googleSignIn.authenticatedClient;
-      
-      if (authClient == null) {
-        throw Exception('Failed to get authenticated client');
-      }
-
-      // Create People API client
-      final peopleApi = people.PeopleServiceApi(authClient);
-
-      // Fetch user profile data
-      final person = await peopleApi.people.get(
-        'people/me',
-        personFields: 'names,emailAddresses,photos',
-      );
+      // Use the provided function to fetch person data
+      final person = await widget.fetchPerson!();
 
       // Extract profile information
       final profile = UserProfile(
