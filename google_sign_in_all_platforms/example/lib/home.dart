@@ -1,4 +1,5 @@
 import 'package:example/secrets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
 
@@ -23,23 +24,32 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Desktop Test')),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            GoogleSignInCredentials? creds;
-            if (!_signedIn) {
-              creds = await _googleSignIn.signInOffline();
-              creds ??= await _googleSignIn.signInOnline();
-            } else {
-              await _googleSignIn.signOut();
-            }
-            final signedIn = creds != null;
-            setState(() {
-              _signedIn = signedIn;
-            });
-          },
-          child: Text(_signedIn ? 'Sign Out' : 'Sign in'),
-        ),
+        child: kIsWeb && !_signedIn
+            ? _googleSignIn.signInButton(
+                config: GSIAPButtonConfig(
+                  onSignIn: _updateAuthState,
+                  onSignOut: () => _updateAuthState(null),
+                ),
+              )
+            : ElevatedButton(
+                onPressed: () async {
+                  GoogleSignInCredentials? creds;
+                  if (!_signedIn) {
+                    creds = await _googleSignIn.signIn();
+                  } else {
+                    await _googleSignIn.signOut();
+                  }
+                  _updateAuthState(creds);
+                },
+                child: Text(_signedIn ? 'Sign Out' : 'Sign in'),
+              ),
       ),
     );
+  }
+
+  void _updateAuthState(GoogleSignInCredentials? creds) {
+    setState(() {
+      _signedIn = creds != null;
+    });
   }
 }

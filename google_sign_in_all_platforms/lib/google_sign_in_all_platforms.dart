@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +32,12 @@ class GoogleSignIn {
   ///Performs Sign in using online flow, for all platforms.
   Future<GoogleSignInCredentials?> signInOnline() {
     return GoogleSignInAllPlatformsInterface.instance.signInOnline();
+  }
+
+  /// Returns a Sign-In Button for Web Platform only.
+  Widget? signInButton({GSIAPButtonConfig? config}) {
+    return GoogleSignInAllPlatformsInterface.instance
+        .signInButton(config: config);
   }
 
   ///Returns the authenticated http client. This should be called after the user
