@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onSignIn: (creds) => setState(() => _signedIn = true),
                   onSignOut: () => setState(() => _signedIn = false),
                 ),
-              );
+              ) ?? const SizedBox.shrink();
             }
 
             return ElevatedButton(

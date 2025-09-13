@@ -19,19 +19,19 @@ class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
   }
 
   @override
-  Future<GoogleSignInCredentials?> lightweightSignIn() {
+  Future<GoogleSignInCredentials?> lightweightSignInImpl() {
     // TODO(vishnuagbly): implement lightweightSignIn
     throw UnimplementedError();
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() {
+  Future<GoogleSignInCredentials?> signInOnlineImpl() {
     // TODO(vishnuagbly): implement signInOnline
     throw UnimplementedError();
   }
 
   @override
-  Widget? signInButton({GSIAPButtonConfig? config}) {
+  Widget? signInButtonImpl({GSIAPButtonConfig? config}) {
     // TODO: implement signInButton
     throw UnimplementedError();
   }
@@ -51,7 +51,7 @@ void main() {
     group('getPlatformName', () {
       test('returns correct name', () async {
         expect(
-          await GoogleSignInAllPlatformsInterface.instance.signInOnline(),
+          await GoogleSignInAllPlatformsInterface.instance.signInOnlineImpl(),
           equals(GoogleSignInAllPlatformsMock.mockPlatformName),
         );
       });

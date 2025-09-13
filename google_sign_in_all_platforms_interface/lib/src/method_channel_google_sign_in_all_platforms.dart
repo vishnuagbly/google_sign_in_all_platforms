@@ -12,13 +12,13 @@ class MethodChannelGoogleSignInAllPlatforms
   final methodChannel = const MethodChannel('google_sign_in_all_platforms');
 
   @override
-  Future<GoogleSignInCredentials?> lightweightSignIn() {
+  Future<GoogleSignInCredentials?> lightweightSignInImpl() {
     // TODO(vishnuagbly): implement lightweightSignIn
     throw UnimplementedError();
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() {
+  Future<GoogleSignInCredentials?> signInOnlineImpl() {
     // TODO(vishnuagbly): implement signInOnline
     throw UnimplementedError();
   }
@@ -36,7 +36,7 @@ class MethodChannelGoogleSignInAllPlatforms
   }
 
   @override
-  Widget? signInButton({GSIAPButtonConfig? config}) {
+  Widget? signInButtonImpl({GSIAPButtonConfig? config}) {
     // TODO: implement signInButton
     throw UnimplementedError();
   }

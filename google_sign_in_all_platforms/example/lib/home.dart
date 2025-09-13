@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // Recommended to call lightweightSignIn in initState like this for silent sign-in
-    _googleSignIn.lightweightSignIn();
+    _googleSignIn.silentSignIn();
     super.initState();
   }
 

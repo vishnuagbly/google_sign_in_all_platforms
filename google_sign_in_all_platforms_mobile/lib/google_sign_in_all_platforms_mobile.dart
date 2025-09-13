@@ -37,14 +37,14 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
   }
 
   @override
-  Future<GoogleSignInCredentials?> lightweightSignIn() async {
+  Future<GoogleSignInCredentials?> lightweightSignInImpl() async {
     final user = await googleSignIn.attemptLightweightAuthentication();
     if (user == null) return null;
     return genCreds(user);
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() async {
+  Future<GoogleSignInCredentials?> signInOnlineImpl() async {
     if (_initializationFuture != null) await _initializationFuture;
 
     try {
@@ -91,12 +91,11 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
     return await user.authorizationClient.authorizeScopes(scopes);
   }
 
-  @override
-
   /// For mobile, there is no need to await, hence can also be called like this:
   /// ```dart
   /// final authClient = unawaited(getAuthenticatedClient());
   /// ```
+  @override
   Future<http.Client?> getAuthenticatedClient() async {
     // Return an authenticated HTTP client if we have authorisation
     final auth = clientAuth;
@@ -104,17 +103,18 @@ class GoogleSignInAllPlatformsMobile extends GoogleSignInAllPlatformsInterface {
       // authClient comes from the extension_google_sign_in_as_googleapis_auth package
       return auth.authClient(scopes: params.scopes);
     }
-    return null;
+
+    return super.getAuthenticatedClient();
+  }
+
+  @protected
+  Future<http.Client?> interfaceGetAuthenticatedClient() async {
+    return super.getAuthenticatedClient();
   }
 
   @override
-  Future<void> signOut() async {
+  Future<void> signOutImpl() async {
     await googleSignIn.signOut();
     clientAuth = null;
-  }
-
-  @override
-  Widget? signInButton({GSIAPButtonConfig? config}) {
-    throw UnimplementedError("signInButton is not available on Mobile");
   }
 }

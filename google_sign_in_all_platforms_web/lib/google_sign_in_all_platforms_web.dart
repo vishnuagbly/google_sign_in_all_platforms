@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_all_platforms_mobile/google_sign_in_all_platforms_mobile.dart';
 import 'package:google_sign_in_all_platforms_web/utils/gsi_button_configuration.dart';
 import 'package:google_sign_in_web/web_only.dart' as web_only;
+import 'package:http/http.dart';
 
 export 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 
@@ -52,7 +53,7 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsMobile {
   /// This is the ONLY supported way to start GIS auth on web.
   /// Example: `child: platform.signInButton(configuration: web_only.GSIButtonConfiguration(...))`
   @override
-  Widget signInButton({GSIAPButtonConfig? config}) {
+  Widget signInButtonImpl({GSIAPButtonConfig? config}) {
     final uiConfig = config?.uiConfig;
     onSignIn = config?.onSignIn;
     onSignOut = config?.onSignOut;
@@ -66,6 +67,11 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsMobile {
   }
 
   @override
+  Future<Client?> getAuthenticatedClient() {
+    return super.interfaceGetAuthenticatedClient();
+  }
+
+  @override
   Future<GoogleSignInCredentials?> signIn() {
     throw UnimplementedError(
       'Use the signInButton() widget to trigger sign-in on web.',
@@ -73,7 +79,7 @@ class GoogleSignInAllPlatformsWeb extends GoogleSignInAllPlatformsMobile {
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() {
+  Future<GoogleSignInCredentials?> signInOnlineImpl() {
     throw UnimplementedError(
       'Use the signInButton() widget to trigger sign-in on web.',
     );

@@ -33,7 +33,7 @@ void main() {
 
     test('getPlatformName', () async {
       final platformName =
-          await methodChannelGoogleSignInAllPlatforms.lightweightSignIn();
+          await methodChannelGoogleSignInAllPlatforms.lightweightSignInImpl();
       expect(
         log,
         <Matcher>[isMethodCall('getPlatformName', arguments: null)],

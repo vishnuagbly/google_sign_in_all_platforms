@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
-import 'package:googleapis_auth/googleapis_auth.dart' as gapis;
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -32,25 +30,17 @@ class GoogleSignInAllPlatformsDesktop
 
   HttpServer? _server;
   Completer<GoogleSignInCredentials?>? _completer;
-  GoogleSignInCredentials? __credentials;
 
-  static const String _kAccessTokenCredsKey = 'access_token';
-  static const String _kRefreshTokenCredsKey = 'refresh_token';
-  static const String _kTokenTypeCredsKey = 'token_type';
   static const String _kScopeCredsKey = 'scope';
   static const String _kScopesSeparator = ' ';
-  static const String _kLogName = 'GoogleSignInAllPlatformsMacOS';
   static const String _kDefaultPostAuthPagePath =
       'packages/google_sign_in_all_platforms_desktop/assets/post_auth_page.html';
 
   String get _redirectUri => 'http://localhost:${params.redirectPort}';
 
   void _setCredentials(GoogleSignInCredentials credentials) {
-    __credentials = credentials;
     _completer?.complete(credentials);
   }
-
-  GoogleSignInCredentials? get _credentials => __credentials;
 
   Future<Response> _handleAccessCodeRoute(Request request) async {
     final code = request.requestedUri.queryParametersAll['code']?.first;
@@ -88,52 +78,12 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   @override
-  Future<GoogleSignInCredentials?> lightweightSignIn() async {
-    final credsJsonString = await params.retrieveAccessToken.call();
-    if (credsJsonString == null) return null;
+  Future<GoogleSignInCredentials?> lightweightSignInImpl() async {
+    final creds = await silentSignIn();
+    if (creds == null) return null;
 
-    try {
-      final credsJson =
-          Map<String, dynamic>.from(jsonDecode(credsJsonString) as Map);
-      _setCredentials(GoogleSignInCredentials.fromJson(credsJson));
-      return _credentials!;
-    } catch (err) {
-      log('$err', name: _kLogName);
-      return null;
-    }
-  }
-
-  @override
-  Future<http.Client?> getAuthenticatedClient() async {
-    final credentials = _credentials;
-    if (credentials == null) return null;
-
-    final creds = <String, dynamic>{
-      _kAccessTokenCredsKey: credentials.accessToken,
-      _kScopeCredsKey:
-          (credentials.scopes.isEmpty ? params.scopes : credentials.scopes)
-              .join(_kScopesSeparator),
-      _kRefreshTokenCredsKey: credentials.refreshToken,
-      _kTokenTypeCredsKey: credentials.tokenType,
-    };
-
-    return __getAuthenticatedClient(creds);
-  }
-
-  static http.Client __getAuthenticatedClient(Map<String, dynamic> creds) {
-    final accessToken = creds[_kAccessTokenCredsKey];
-    final refreshToken = creds[_kRefreshTokenCredsKey];
-    final scopes = (creds[_kScopeCredsKey]! as String).split(' ');
-    final accessCreds = gapis.AccessCredentials(
-      gapis.AccessToken(
-        (creds[_kTokenTypeCredsKey] ?? 'Bearer') as String,
-        accessToken as String,
-        DateTime.now().toUtc().add(const Duration(days: 365)),
-      ),
-      refreshToken as String?,
-      scopes,
-    );
-    return gapis.authenticatedClient(http.Client(), accessCreds);
+    _setCredentials(creds);
+    return credentials!;
   }
 
   shelf_router.Router _initializeRouter() {
@@ -162,6 +112,7 @@ class GoogleSignInAllPlatformsDesktop
         'redirect_uri': _redirectUri,
         'scope': params.scopes.join(_kScopesSeparator),
         'access_type': 'offline',
+        'prompt': 'consent',
       }),
     );
   }
@@ -180,7 +131,7 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOnline() async {
+  Future<GoogleSignInCredentials?> signInOnlineImpl() async {
     final app = _initializeRouter();
     await _startServer(app);
     _launchUrl();
@@ -191,16 +142,5 @@ class GoogleSignInAllPlatformsDesktop
     await _closeServer();
 
     return null;
-  }
-
-  @override
-  Future<void> signOut() async {
-    await params.deleteAccessToken();
-    __credentials = null;
-  }
-
-  @override
-  Widget? signInButton({GSIAPButtonConfig? config}) {
-    throw UnimplementedError("Not available on Desktop");
   }
 }
