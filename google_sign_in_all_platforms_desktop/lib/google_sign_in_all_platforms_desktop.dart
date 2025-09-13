@@ -88,7 +88,7 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOffline() async {
+  Future<GoogleSignInCredentials?> lightweightSignIn() async {
     final credsJsonString = await params.retrieveAccessToken.call();
     if (credsJsonString == null) return null;
 

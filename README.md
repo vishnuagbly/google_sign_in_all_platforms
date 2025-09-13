@@ -186,8 +186,8 @@ This class is used to perform all types of Google OAuth operations.
 
 ### Methods
 
-- `Future<GoogleSignInCredentials?> signIn()`: Executes `signInOffline` first, and if unsuccessful, executes `signInOnline`.
-- `Future<GoogleSignInCredentials?> signInOffline()`: Performs sign-in using the token stored in internal storage. Falls back to online sign-in on mobile devices if offline sign-in fails.
+- `Future<GoogleSignInCredentials?> signIn()`: Executes `lightweightSignIn` first, and if unsuccessful, executes `signInOnline`.
+- `Future<GoogleSignInCredentials?> lightweightSignIn()`: Performs sign-in using the token stored in internal storage. Falls back to online sign-in on mobile devices if offline sign-in fails.
 - `Future<GoogleSignInCredentials?> signInOnline()`: Performs online sign-in for all platforms.
 - `Future<http.Client?> get authenticatedClient`: Returns the authenticated HTTP client. Should be called after the user is signed in.
 - `Future<void> signOut()`: Performs the sign-out operation and deletes the stored token.

@@ -7,8 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:google_sign_in_all_platforms_mobile_example/main.dart';
+import 'package:google_sign_in_all_platforms_mobile_example/app.dart';
 
 void main() {
   testWidgets('Verify Platform version', (WidgetTester tester) async {

@@ -3,6 +3,8 @@ description: Google Sign In Plugin for supporting all platforms, even Windows an
 version: 1.2.1
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms
 
+publish_to: none
+
 environment:
   sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.0.0"
@@ -26,10 +28,14 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_desktop: ^0.1.0
-  google_sign_in_all_platforms_interface: ^0.1.0
-  google_sign_in_all_platforms_mobile: ^0.1.0
-  google_sign_in_all_platforms_web: ^0.0.2
+  google_sign_in_all_platforms_desktop:
+    path: ../google_sign_in_all_platforms_desktop
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
+  google_sign_in_all_platforms_mobile:
+    path: ../google_sign_in_all_platforms_mobile
+  google_sign_in_all_platforms_web:
+    path: ../google_sign_in_all_platforms_web
   http: ^1.2.0
 
 dev_dependencies:

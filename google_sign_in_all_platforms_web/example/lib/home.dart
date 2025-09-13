@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var _signedIn = false;
   final GoogleSignInAllPlatformsWeb _googleSignIn =
       GoogleSignInAllPlatformsWeb();
-  late final _alreadySignedInFuture = _googleSignIn.signInOffline().then(
+  late final _alreadySignedInFuture = _googleSignIn.lightweightSignIn().then(
     (creds) => WidgetsBinding.instance.addPostFrameCallback(
       (_) => setState(() => _signedIn = creds != null),
     ),

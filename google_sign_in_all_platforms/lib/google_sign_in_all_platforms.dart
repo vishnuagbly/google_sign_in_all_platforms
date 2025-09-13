@@ -7,50 +7,52 @@ import 'package:http/http.dart' as http;
 
 export 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 
+class _GoogleSignInAuthState {
+  _GoogleSignInAuthState._(this.controller);
+
+  static final _GoogleSignInAuthState instance = _GoogleSignInAuthState._(
+    StreamController<GoogleSignInCredentials?>.broadcast(),
+  );
+
+  final StreamController<GoogleSignInCredentials?> controller;
+  GoogleSignInCredentials? lastEmittedCredentials;
+}
+
 ///Use this class to perform all types of Google OAuth operations.
 class GoogleSignIn {
   ///Use this class to perform all types of Google OAuth operations.
-  GoogleSignIn({GoogleSignInParams params = const GoogleSignInParams()})
-      : assert(
+  GoogleSignIn({
+    GoogleSignInParams params = const GoogleSignInParams(),
+  })  : assert(
           (params.clientSecret != null && params.clientId != null) ||
               !isDesktop,
           'For Desktop, clientSecret and clientId cannot be null',
-        ) {
+        ),
+        _authState = _GoogleSignInAuthState.instance {
     GoogleSignInAllPlatformsInterface.instance.init(params);
   }
 
-  StreamController<GoogleSignInCredentials?>? _authStreamController;
-  GoogleSignInCredentials? _lastEmittedCredentials;
+  final _GoogleSignInAuthState _authState;
 
   /// Stream that emits GoogleSignInCredentials when user signs in, and null
   /// when user signs out
   Stream<GoogleSignInCredentials?> get authenticationState {
-    _authStreamController ??=
-        StreamController<GoogleSignInCredentials?>.broadcast();
-    return _authStreamController!.stream;
+    return _authState.controller.stream;
   }
 
   void _emitIfChanged(GoogleSignInCredentials? credentials) {
-    var shouldEmit = false;
-
-    if (credentials == null && _lastEmittedCredentials != null) {
-      shouldEmit = true;
-    } else if (credentials != null && _lastEmittedCredentials == null) {
-      shouldEmit = true;
-    } else if (credentials != null && _lastEmittedCredentials != null) {
-      shouldEmit = !AuthStateUtils.hasSameAccessToken(
-        credentials,
-        _lastEmittedCredentials,
-      );
+    if (AuthStateUtils.hasSameAccessToken(
+      credentials,
+      _authState.lastEmittedCredentials,
+    )) {
+      return;
     }
 
-    if (shouldEmit) {
-      _authStreamController?.add(credentials);
-      _lastEmittedCredentials = credentials;
-    }
+    _authState.controller.add(credentials);
+    _authState.lastEmittedCredentials = credentials;
   }
 
-  ///Executes [signInOffline] first, and if unsuccessful, it executes
+  ///Executes [lightweightSignIn] first, and if unsuccessful, it executes
   ///[signInOnline].
   Future<GoogleSignInCredentials?> signIn() async {
     final credentials =
@@ -62,12 +64,16 @@ class GoogleSignIn {
   ///Performs Sign in using token stored in internal storage.
   ///Note:- For mobile devices, if it fails to sign in via stored token it will
   ///perform the online sign in process.
-  Future<GoogleSignInCredentials?> signInOffline() async {
+  Future<GoogleSignInCredentials?> lightweightSignIn() async {
     final credentials =
-        await GoogleSignInAllPlatformsInterface.instance.signInOffline();
+        await GoogleSignInAllPlatformsInterface.instance.lightweightSignIn();
     _emitIfChanged(credentials);
     return credentials;
   }
+
+  /// Alias for [lightweightSignIn]
+  @Deprecated('Use lightweightSignIn instead. signInOffline will be removed in a future version.')
+  Future<GoogleSignInCredentials?> signInOffline() => lightweightSignIn();
 
   ///Performs Sign in using online flow, for all platforms.
   Future<GoogleSignInCredentials?> signInOnline() async {
@@ -105,12 +111,5 @@ class GoogleSignIn {
   Future<void> signOut() async {
     await GoogleSignInAllPlatformsInterface.instance.signOut();
     _emitIfChanged(null);
-  }
-
-  /// Dispose resources when GoogleSignIn instance is no longer needed
-  void dispose() {
-    _authStreamController?.close();
-    _authStreamController = null;
-    _lastEmittedCredentials = null;
   }
 }

@@ -12,8 +12,8 @@ class MethodChannelGoogleSignInAllPlatforms
   final methodChannel = const MethodChannel('google_sign_in_all_platforms');
 
   @override
-  Future<GoogleSignInCredentials?> signInOffline() {
-    // TODO(vishnuagbly): implement signInOffline
+  Future<GoogleSignInCredentials?> lightweightSignIn() {
+    // TODO(vishnuagbly): implement lightweightSignIn
     throw UnimplementedError();
   }
 

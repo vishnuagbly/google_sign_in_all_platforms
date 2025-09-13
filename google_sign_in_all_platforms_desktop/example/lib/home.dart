@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () async {
             GoogleSignInCredentials? creds;
             if (!_signedIn) {
-              creds = await _googleSignIn.signInOffline();
+              creds = await _googleSignIn.lightweightSignIn();
               creds ??= await _googleSignIn.signInOnline();
             } else {
               await _googleSignIn.signOut();

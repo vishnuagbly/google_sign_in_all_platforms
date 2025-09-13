@@ -7,6 +7,8 @@ environment:
   sdk: ^3.7.2
   flutter: '>=3.3.0'
 
+publish_to: none
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,7 +19,11 @@ dependencies:
   extension_google_sign_in_as_googleapis_auth: ^3.0.0
   google_sign_in: ^7.1.1
   google_sign_in_web: ^1.0.0
-  google_sign_in_all_platforms_interface: ^0.1.0
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
+  google_sign_in_all_platforms_mobile:
+    path: ../google_sign_in_all_platforms_mobile
+
   http: ^1.2.0
 
 dev_dependencies:

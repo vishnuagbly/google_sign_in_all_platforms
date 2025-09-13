@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:http/src/client.dart';
@@ -18,14 +19,20 @@ class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
   }
 
   @override
-  Future<GoogleSignInCredentials?> signInOffline() {
-    // TODO(vishnuagbly): implement signInOffline
+  Future<GoogleSignInCredentials?> lightweightSignIn() {
+    // TODO(vishnuagbly): implement lightweightSignIn
     throw UnimplementedError();
   }
 
   @override
   Future<GoogleSignInCredentials?> signInOnline() {
     // TODO(vishnuagbly): implement signInOnline
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget? signInButton({GSIAPButtonConfig? config}) {
+    // TODO: implement signInButton
     throw UnimplementedError();
   }
 }

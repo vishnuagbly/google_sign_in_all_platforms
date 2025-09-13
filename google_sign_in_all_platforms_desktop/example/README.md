@@ -1,6 +1,6 @@
 # example
 
-A new Flutter project. To check the [signInOffline] feature, restart the app, after signing in a 
+A new Flutter project. To check the [lightweightSignIn] feature, restart the app, after signing in a 
 single time, but not signing out.
 
 ## Getting Started

@@ -7,10 +7,13 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
   flutter: '>=3.3.0'
 
+publish_to: none
+
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in_all_platforms_interface: ^0.1.0
+  google_sign_in_all_platforms_interface:
+    path: ../google_sign_in_all_platforms_interface
   googleapis_auth: ^2.0.0
   http: ^1.2.0
   plugin_platform_interface: ^2.0.2

@@ -58,10 +58,10 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   ///Initialize the parameters required for the plugin.
   void init(GoogleSignInParams params) => _setParams(params);
 
-  ///This method first tries executing [signInOffline] method, if
+  ///This method first tries executing [lightweightSignIn] method, if
   ///unsuccessful, then executes [signInOnline] method.
   Future<GoogleSignInCredentials?> signIn() async {
-    return (await signInOffline()) ?? await signInOnline();
+    return (await lightweightSignIn()) ?? await signInOnline();
   }
 
   ///Use this to get the sign in button widget, only for Web platform.
@@ -71,10 +71,13 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
   ///storage. Therefore, can also be used to check if th user is already logged
   ///in or not.
   ///
-  ///For Mobile and Web devices, this is the same as signInOnline, while it
-  ///firsts check for an already existing token, and if not exists then perform
-  ///the sign in online.
-  Future<GoogleSignInCredentials?> signInOffline();
+  ///For Mobile and Web devices, this uses the official
+  ///attemptLightweightAuthentication method.
+  Future<GoogleSignInCredentials?> lightweightSignIn();
+
+  ///Alias for [lightweightSignIn]
+  @Deprecated('Use lightweightSignIn instead. signInOffline will be removed in a future version.')
+  Future<GoogleSignInCredentials?> signInOffline() => lightweightSignIn();
 
   ///Use this to sign in using the online method, by retrieving new token from
   ///the api.
