@@ -47,7 +47,9 @@ class _ProfileCardState extends State<ProfileCard> {
   void didUpdateWidget(ProfileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Fetch profile when signing in
-    if (!oldWidget.isSignedIn && widget.isSignedIn && widget.fetchPerson != null) {
+    if (!oldWidget.isSignedIn &&
+        widget.isSignedIn &&
+        widget.fetchPerson != null) {
       _fetchUserProfile();
     }
     // Clear profile when signing out
@@ -74,15 +76,14 @@ class _ProfileCardState extends State<ProfileCard> {
 
       // Extract profile information
       final profile = UserProfile(
-        name: person.names?.isNotEmpty == true 
+        name: person.names?.isNotEmpty == true
             ? person.names!.first.displayName
             : null,
         email: person.emailAddresses?.isNotEmpty == true
             ? person.emailAddresses!.first.value
             : null,
-        photoUrl: person.photos?.isNotEmpty == true
-            ? person.photos!.first.url
-            : null,
+        photoUrl:
+            person.photos?.isNotEmpty == true ? person.photos!.first.url : null,
       );
 
       setState(() {
@@ -137,7 +138,7 @@ class _ProfileCardState extends State<ProfileCard> {
         ),
       );
     }
-    
+
     if (_isLoadingProfile) {
       return const Card(
         elevation: 4,
@@ -156,7 +157,7 @@ class _ProfileCardState extends State<ProfileCard> {
         ),
       );
     }
-    
+
     if (_errorMessage != null) {
       return Card(
         elevation: 4,
@@ -188,7 +189,7 @@ class _ProfileCardState extends State<ProfileCard> {
         ),
       );
     }
-    
+
     if (_userProfile == null) {
       return const Card(
         elevation: 4,
@@ -200,7 +201,7 @@ class _ProfileCardState extends State<ProfileCard> {
         ),
       );
     }
-    
+
     return Card(
       elevation: 4,
       child: Padding(
@@ -242,7 +243,7 @@ class _ProfileCardState extends State<ProfileCard> {
                   : const Icon(Icons.person, size: 50, color: Colors.grey),
             ),
             const SizedBox(height: 16),
-            
+
             // Profile Information
             _buildProfileItem(
               icon: Icons.person,
@@ -250,7 +251,7 @@ class _ProfileCardState extends State<ProfileCard> {
               value: _userProfile!.name ?? 'Not available',
             ),
             const SizedBox(height: 12),
-            
+
             _buildProfileItem(
               icon: Icons.email,
               label: 'Email',
