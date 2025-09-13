@@ -7,7 +7,7 @@ class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
   static const mockPlatformName = 'Mock';
 
   @override
-  Future<void> signOut() {
+  Future<void> signOutImpl() {
     // TODO(vishnuagbly): implement signOut
     throw UnimplementedError();
   }
