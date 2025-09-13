@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms_interface
 description: A common platform.dart interface for the google_sign_in_all_platforms plugin.
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms
 
 environment:

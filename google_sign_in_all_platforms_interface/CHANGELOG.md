@@ -1,3 +1,40 @@
+## 0.2.0
+
+### BREAKING CHANGES
+- **For Platform Implementers**: New abstract methods that must be implemented
+  - `lightweightSignInImpl()` - Platform-specific lightweight authentication implementation
+  - `signInOnlineImpl()` - Platform-specific online authentication implementation
+  - `signInButtonImpl()` - Platform-specific sign-in button implementation
+  - `signOutImpl()` - Platform-specific sign-out implementation
+- **For End Users**: `signInOffline()` deprecated in favor of `lightweightSignIn()`
+  - `lightweightSignIn` will use official recommended method for signing-in previously signed-in 
+  user
+
+### Added
+- `authenticationState` broadcast stream - Emits `GoogleSignInCredentials?` on auth state changes (RECOMMENDED - for tracking auth state)
+- `silentSignIn()` method - Restores authentication from stored credentials. Though works 
+on all platforms, NOT officially recommended for mobile and web.
+- Enhanced `GoogleSignInCredentials` class:
+  - Added `expiresIn` field for token expiration tracking
+  - Made class `@immutable` with equality operators
+  - Added `copyWith()` method
+- Updated `getAuthenticatedClient()` implementation:
+  - Automatic token validation via Google OAuth2 API
+  - Token refresh when refresh tokens available
+  - Auto sign-out on authentication failures
+- Automatic credential persistence to local storage, i.e will always automatically use 
+`saveAccessToken`, `retrieveAccessToken` and `deleteAccessToken` methods.
+
+### Changed
+- `signIn()` now tries `lightweightSignIn()` first, falls back to `signInOnline()`, for 
+all platforms.
+- All authentication methods now automatically update authentication state
+- Refactored to implementation pattern (`@nonVirtual` public methods, `@protected` impl methods)
+
+### New Dependencies
+- Added `googleapis: ^14.0.0`
+- Added `googleapis_auth: ^2.0.0`
+
 ## 0.1.0
 
 ### BREAKING CHANGES

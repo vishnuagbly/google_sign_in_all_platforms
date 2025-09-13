@@ -24,7 +24,7 @@ class MethodChannelGoogleSignInAllPlatforms
   }
 
   @override
-  Future<void> signOut() {
+  Future<void> signOutImpl() {
     // TODO(vishnuagbly): implement signOut
     throw UnimplementedError();
   }

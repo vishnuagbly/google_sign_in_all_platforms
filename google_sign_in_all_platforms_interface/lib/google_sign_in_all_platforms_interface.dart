@@ -35,11 +35,6 @@ abstract class GoogleSignInAllPlatformsInterface extends PlatformInterface {
         super(token: _token);
 
   static final Object _token = Object();
-  static const String _kAccessTokenCredsKey = 'access_token';
-  static const String _kRefreshTokenCredsKey = 'refresh_token';
-  static const String _kTokenTypeCredsKey = 'token_type';
-  static const String _kScopeCredsKey = 'scope';
-  static const String _kScopesSeparator = ' ';
   static const _kLogName = 'GoogleSignInAllPlatformsInterface';
 
   static GoogleSignInAllPlatformsInterface _instance =

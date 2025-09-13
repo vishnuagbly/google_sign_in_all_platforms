@@ -5,7 +5,7 @@ import 'package:http/src/client.dart';
 
 class GoogleSignInAllPlatformsMock extends GoogleSignInAllPlatformsInterface {
   static const mockPlatformName = 'Mock';
-  
+
   @override
   Future<void> signOut() {
     // TODO(vishnuagbly): implement signOut
