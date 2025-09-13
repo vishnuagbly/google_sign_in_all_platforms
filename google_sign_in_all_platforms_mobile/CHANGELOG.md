@@ -12,9 +12,6 @@
 - Updated dependency `google_sign_in_all_platforms_interface` to `^0.2.0`
 - Inherited authentication state management and credential persistence from interface 0.2.0
 
-### New Dependencies
-- Added `extension_google_sign_in_as_googleapis_auth: ^3.0.0` for mobile-optimized HTTP client generation
-
 ## 0.1.0
 
 ### Added
