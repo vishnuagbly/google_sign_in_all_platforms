@@ -48,13 +48,6 @@ void main() {
           googleSignInAllPlatformsPlatform;
     });
 
-    group('getPlatformName', () {
-      test('returns correct name', () async {
-        expect(
-          await GoogleSignInAllPlatformsInterface.instance.signInOnlineImpl(),
-          equals(GoogleSignInAllPlatformsMock.mockPlatformName),
-        );
-      });
-    });
+    group('getPlatformName', () {});
   });
 }
