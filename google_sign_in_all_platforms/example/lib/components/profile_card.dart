@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:googleapis/people/v1.dart' as people;
 
@@ -90,12 +92,78 @@ class _ProfileCardState extends State<ProfileCard> {
         _userProfile = profile;
         _isLoadingProfile = false;
       });
+      
+      // Debug log the profile photo URL
+      if (profile.photoUrl != null) {
+        log('Profile photo URL received: ${profile.photoUrl}', name: 'ProfileCard');
+      }
     } catch (e) {
       setState(() {
         _isLoadingProfile = false;
         _errorMessage = 'Failed to load profile: ${e.toString()}';
       });
     }
+  }
+
+  // Simple, reliable profile image widget
+  Widget _buildCustomProfileImage(String imageUrl) {
+    // Generate initials for fallback
+    String getInitials() {
+      if (_userProfile?.name != null && _userProfile!.name!.isNotEmpty) {
+        final words = _userProfile!.name!.trim().split(' ');
+        if (words.length >= 2) {
+          return '${words[0][0]}${words[1][0]}'.toUpperCase();
+        } else if (words.isNotEmpty) {
+          return words[0][0].toUpperCase();
+        }
+      }
+      return 'U';
+    }
+
+    log('Loading profile image with simple approach: $imageUrl', name: 'ProfileCard');
+    
+    return ClipOval(
+      child: Image.network(
+        imageUrl,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) {
+            log('✅ Profile image loaded successfully!', name: 'ProfileCard');
+            return child;
+          }
+          return const SizedBox(
+            width: 100,
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          log('Image failed to load, showing initials: $error', name: 'ProfileCard');
+          return Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.blue.shade300,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                getInitials(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -213,33 +281,7 @@ class _ProfileCardState extends State<ProfileCard> {
               radius: 50,
               backgroundColor: Colors.grey[200],
               child: _userProfile!.photoUrl != null
-                  ? ClipOval(
-                      child: Image.network(
-                        _userProfile!.photoUrl!,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          // Show fallback icon when image fails to load
-                          return const Icon(
-                            Icons.person,
-                            size: 50,
-                            color: Colors.grey,
-                          );
-                        },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          // Show loading indicator
-                          return const SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                          );
-                        },
-                      ),
-                    )
+                  ? _buildCustomProfileImage(_userProfile!.photoUrl!)
                   : const Icon(Icons.person, size: 50, color: Colors.grey),
             ),
             const SizedBox(height: 16),
