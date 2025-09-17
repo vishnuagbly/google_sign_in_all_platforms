@@ -772,15 +772,15 @@ void initState() {
 #### Quick Migration Checklist
 
 **For existing mobile/desktop apps:**
-- [ ] Update to `google_sign_in_all_platforms: ^2.0.0`
-- [ ] Run your existing code (should work without changes)
-- [ ] Optionally replace `signInOffline()` with `lightweightSignIn()`
-- [ ] Consider adopting `authenticationState` stream for reactive UIs
+- Update to `google_sign_in_all_platforms: ^2.0.0`
+- Run your existing code (should work without changes)
+- Optionally replace `signInOffline()` with `lightweightSignIn()`
+- Consider adopting `authenticationState` stream for reactive UIs
 
 **For adding web support:**
-- [ ] Use `signInButton()` widget instead of calling `signIn()` directly
-- [ ] Add platform check: `if (kIsWeb) { /* use button */ }`
-- [ ] Test authentication flow on web platform
+- Use `signInButton()` widget instead of calling `signIn()` directly
+- Add platform check: `if (kIsWeb) { /* use button */ }`
+- Test authentication flow on web platform
 
 The migration path is designed to be **gradual and non-disruptive** - you can upgrade immediately and adopt new features at your own pace!
 

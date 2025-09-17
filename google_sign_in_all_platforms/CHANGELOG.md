@@ -1,3 +1,6 @@
+## 2.0.2
+Fixed Migration Checklist in README
+
 ## 2.0.1
 
 ### Changed

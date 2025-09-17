@@ -1,6 +1,6 @@
 name: google_sign_in_all_platforms
 description: Google Sign In Plugin for supporting all platforms, even Windows and Linux
-version: 2.0.1
+version: 2.0.2
 homepage: https://github.com/vishnuagbly/google_sign_in_all_platforms/tree/main/google_sign_in_all_platforms
 
 environment:
