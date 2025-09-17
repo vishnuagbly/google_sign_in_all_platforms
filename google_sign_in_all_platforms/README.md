@@ -18,10 +18,10 @@ On Windows and Linux, this package leverages your users' default browser with th
 </tr>
 <tr>
 <td align="center">
-<img src="Windows-Example-small_10s.webp" width="500" alt="Windows Desktop Demo"/
+<img src="https://raw.githubusercontent.com/vishnuagbly/google_sign_in_all_platforms/main/Windows-Example-small_10s.webp" width="500" alt="Windows Desktop Demo"/>
 </td>
 <td align="center">
-<img src="Android-Example_10s.webp" width="126" alt="Android Mobile Demo"/>
+<img src="https://raw.githubusercontent.com/vishnuagbly/google_sign_in_all_platforms/main/Android-Example_10s.webp" width="126" alt="Android Mobile Demo"/>
 </td>
 </tr>
 </table>
@@ -38,6 +38,7 @@ On Windows and Linux, this package leverages your users' default browser with th
 - [Documentation](#documentation)
   - [Platform Setup](#platform-setup)
   - [How to Get Google OAuth Credentials](#how-to-get-google-oauth-credentials)
+  - [Client Secret Requirements](#client-secret-requirements)
   - [Authentication Methods](#authentication-methods)
     - [signIn() - Primary Method](#signin---primary-method)
     - [silentSignIn() - Seamless Authentication](#silentsignin---seamless-authentication)
@@ -100,7 +101,7 @@ class SignInDemo extends StatelessWidget {
     // See 'How to Get Google OAuth Credentials' section below
     params: const GoogleSignInParams(
       clientId: 'your-client-id.apps.googleusercontent.com',
-      clientSecret: 'your-client-secret',
+      clientSecret: 'your-client-secret', // Don't worry - not truly a secret! See 'Client Secret Requirements'
       scopes: ['openid', 'profile', 'email'],
     ),
   );
@@ -184,6 +185,75 @@ Client Secret) from the Google Cloud Console. Follow these steps:
 4. **Copy the Client ID and Client Secret**
    After creation, you'll receive your **Client ID** and **Client Secret**. Use these in your
    application's configuration as required.
+
+### Client Secret Requirements
+
+> **⚠️ Important:** Client secrets are **ONLY required for desktop applications** (Windows, Linux, macOS) and are **optional** for mobile (Android/iOS) and web platforms. If included on any platform, they should be treated as public information.
+
+#### Platform-Specific Requirements
+
+| Platform | Client Secret Required | Recommendation |
+|----------|----------------------|----------------|
+| **Desktop** (Windows/Linux/macOS) | ✅ **Required** | Include directly, but treat as public |
+| **Mobile** (Android/iOS) | ❌ **Optional** | Can be excluded (not truly secret anyway) |
+| **Web** | ❌ **Optional** | Can be excluded (not truly secret anyway) |
+
+#### Why This Matters
+
+**The Core Issue:**
+Many developers assume client secrets must be kept confidential, but for public applications (mobile/desktop apps distributed to users), this is impossible and unnecessary.
+
+**Google's Official Position:**
+> "We don't expect those secrets to stay secret—so far we're including them mostly so it's convenient to use with libraries today, and expect to stop requiring them at some point in the future."  
+> *— Andrew (Google OAuth2 Team)* | [Source](https://groups.google.com/g/oauth2-dev/c/HnFJJOvMfmA)
+
+#### Recommendations by Platform
+
+##### ✅ Desktop Applications (Windows/Linux/macOS)
+**What to do:**
+- Include the client secret directly in your application
+- Understand that users can inspect and discover this secret
+- This is acceptable and expected for public desktop applications
+
+**Security reality:**
+- Client secrets in desktop apps are essentially "public"
+- They serve mainly for identification, not true authentication
+- [RFC 8252 Section 8.5](https://datatracker.ietf.org/doc/html/rfc8252#section-8.5) confirms this approach
+
+##### ❌ Mobile & Web Applications (Android/iOS/Web)
+**What to do:**
+- Client secrets can be chosen to **NOT be included** in mobile APKs/bundles or web applications
+- Both platforms officially support Google Sign-In without client secrets
+- If you do include them, understand they are not considered actual secrets (as per Google's position above)
+
+#### Alternative Secure Approaches
+
+If you need enhanced security for production applications:
+
+- Store client secrets in secure environment variables
+- Use encrypted configuration files
+- Implement runtime secret injection
+- Use cloud secret management services (AWS Secrets Manager, etc.)
+
+**Benefits:**
+- Secrets not hardcoded in source control
+- Different secrets per environment (dev/staging/prod)
+- Audit trails for secret access
+
+#### Quick Decision Guide
+
+**"Should I include a client secret?"**
+
+- 🖥️ **Desktop app?** → Yes, include it (required, but users can see it anyway)
+- 📱 **Mobile app?** → Optional, can exclude it (not truly secret & not required)
+- 🌐 **Web app?** → Optional, can exclude it (not truly secret & not required)
+- 🔒 **Need maximum security?** → Consider server-side proxy
+
+---
+
+*Special thanks to [@allComputableThings](https://github.com/vishnuagbly/google_sign_in_all_platforms/issues/12) for raising this important question, and [@tnc1997](https://github.com/vishnuagbly/google_sign_in_all_platforms/issues/12#issuecomment-2571699134) for providing detailed research and technical insights that informed this clarification.*
+
+*Technical References: [RFC 8252](https://datatracker.ietf.org/doc/html/rfc8252#section-8.5) | [Google OAuth2 Discussion](https://groups.google.com/g/oauth2-dev/c/HnFJJOvMfmA) | [Flutter Google Sign-In Desktop](https://github.com/tnc1997/flutter-google-sign-in-desktop)*
 
 ### Authentication Methods
 
