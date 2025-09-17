@@ -46,3 +46,7 @@ build/
 .project
 .classpath
 .settings
+
+*.gif
+test.ipynb
+DEVELOPMENT_ANALYSIS_v2.0.0.md
