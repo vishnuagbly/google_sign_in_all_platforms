@@ -50,3 +50,6 @@ build/
 *.gif
 test.ipynb
 DEVELOPMENT_ANALYSIS_v2.0.0.md
+
+# iOS configuration files with secrets
+**/ios/**/Info.plist
