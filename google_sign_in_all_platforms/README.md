@@ -18,10 +18,10 @@ On Windows and Linux, this package leverages your users' default browser with th
 </tr>
 <tr>
 <td align="center">
-<img src="../Windows-Example-small_10s.webp" width="500" alt="Windows Desktop Demo"/>
+<img src="Windows-Example-small_10s.webp" width="500" alt="Windows Desktop Demo"/
 </td>
 <td align="center">
-<img src="../Android-Example_10s.webp" width="126" alt="Android Mobile Demo"/>
+<img src="Android-Example_10s.webp" width="126" alt="Android Mobile Demo"/>
 </td>
 </tr>
 </table>
