@@ -42,5 +42,6 @@ dev_dependencies:
 false_secrets:
   - example/android/app/google-services.json
   - example/ios/Runner/GoogleService-Info.plist
+  - example/ios/Runner/Info.plist
   - example/lib/firebase_options.dart
   - example/lib/secrets-template.dart
