@@ -1,3 +1,10 @@
+## 0.2.1
+
+### Added
+- Platform Implementers Migration guidelines in README with comprehensive implementation guidance
+- Detailed migration checklist for custom platform implementations
+- Code examples showing old vs new implementation patterns
+
 ## 0.2.0
 
 ### BREAKING CHANGES

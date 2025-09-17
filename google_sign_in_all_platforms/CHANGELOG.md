@@ -1,3 +1,9 @@
+## 2.0.1
+
+### Changed
+- Moved Platform Implementers Migration guidelines from main README to interface package README for better organization
+- Updated Quick Migration Checklist to remove platform implementer-specific items
+
 ## 2.0.0
 
 ### BREAKING CHANGES

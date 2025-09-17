@@ -70,7 +70,6 @@ On Windows and Linux, this package leverages your users' default browser with th
     - [For Existing App Developers](#for-existing-app-developers)
     - [For Web Developers](#for-web-developers)
     - [Adopt New Features (Optional)](#adopt-new-features-optional)
-    - [For Platform Implementers (Advanced)](#for-platform-implementers-advanced)
     - [Migration Timeline](#migration-timeline)
     - [Quick Migration Checklist](#quick-migration-checklist)
 - [Feedback](#feedback)
@@ -755,44 +754,6 @@ void initState() {
 }
 ```
 
-#### For Platform Implementers (Advanced)
-
-**❌ Breaking Changes Required**
-
-If you've created custom platform implementations, you must update to the new interface pattern:
-
-```dart
-// OLD: Direct method implementations
-class MyCustomPlatform extends GoogleSignInAllPlatformsInterface {
-  @override
-  Future<GoogleSignInCredentials?> lightweightSignIn() {
-    // Implementation here
-  }
-}
-
-// NEW: Implementation pattern with *Impl methods
-class MyCustomPlatform extends GoogleSignInAllPlatformsInterface {
-  @override
-  Future<GoogleSignInCredentials?> lightweightSignInImpl() {
-    // Implementation here - state management handled by interface
-  }
-  
-  @override
-  Future<GoogleSignInCredentials?> signInOnlineImpl() { /* ... */ }
-  
-  @override
-  Future<void> signOutImpl() { /* ... */ }
-  
-  @override
-  Widget? signInButtonImpl({GSIAPButtonConfig? config}) { /* ... */ }
-}
-```
-
-**Required changes:**
-- Implement `lightweightSignInImpl()` instead of `lightweightSignIn()`
-- Implement `signInOnlineImpl()` instead of `signInOnline()`  
-- Implement `signOutImpl()` instead of `signOut()`
-- Add `signInButtonImpl()` method (can return `null` for non-web platforms)
 
 #### Migration Timeline
 
@@ -820,11 +781,6 @@ class MyCustomPlatform extends GoogleSignInAllPlatformsInterface {
 - [ ] Use `signInButton()` widget instead of calling `signIn()` directly
 - [ ] Add platform check: `if (kIsWeb) { /* use button */ }`
 - [ ] Test authentication flow on web platform
-
-**For platform implementers:**
-- [ ] Update to new `*Impl()` method pattern
-- [ ] Test all authentication flows on your custom platform
-- [ ] Update any custom error handling to work with new state management
 
 The migration path is designed to be **gradual and non-disruptive** - you can upgrade immediately and adopt new features at your own pace!
 
