@@ -613,6 +613,10 @@ StreamBuilder<GoogleSignInCredentials?>(
 
 ### API Reference
 
+> **📖 Complete API Documentation**: For comprehensive API documentation with detailed method signatures, parameters, and examples, visit the [**pub.dev API reference**](https://pub.dev/documentation/google_sign_in_all_platforms/latest/).
+
+The following sections provide a quick overview of the main classes and methods:
+
 #### GoogleSignInParams
 
 This class contains all the parameters that might be needed for performing the Google sign-in operation.
@@ -627,6 +631,7 @@ This class contains all the parameters that might be needed for performing the G
 - `redirectPort`: The localhost port for receiving the access code on Desktop platforms. Default is 8000.
 - `clientId`: The Google Project Client ID, required for Desktop platforms.
 - `clientSecret`: The Google Project Client Secret, required for Desktop platforms.
+- `customPostAuthPage`: Custom HTML page for authentication UI (Desktop only). If provided, replaces the default authentication page.
 
 **Example:**
 ```dart
@@ -640,6 +645,20 @@ GoogleSignInParams params = GoogleSignInParams(
   redirectPort: 3000,
   clientId: 'YOUR_CLIENT_ID',
   clientSecret: 'YOUR_CLIENT_SECRET',
+  customPostAuthPage: '''<!DOCTYPE html>
+<html>
+  <head><title>My App - Authentication</title></head>
+  <body>
+    <h1>🔐 My App</h1>
+    <p id="status">Processing authentication...</p>
+    <script>
+      document.addEventListener('google-auth-success', function(event) {
+        document.getElementById('status').textContent = 
+          '✅ Success! You can close this window.';
+      });
+    </script>
+  </body>
+</html>''', // Desktop only 
 );
 ```
 

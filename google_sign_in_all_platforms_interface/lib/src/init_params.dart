@@ -59,8 +59,64 @@ class GoogleSignInParams {
   ///Google Project Client Secret, it should of "web' type.
   final String? clientSecret;
 
-  ///The HTML for the page that is shown to the user after they have
-  ///authenticated successfully.
+  ///Custom HTML page to display during the authentication process.
+  ///
+  ///**Desktop platforms only** - This parameter is ignored on mobile and web.
+  ///
+  ///When provided, this HTML content will be used instead of the default 
+  ///authentication page. The plugin will inject a JavaScript script into your 
+  ///HTML that is required for Google's Implicit Authentication to handle OAuth2 
+  ///responses from both implicit flow (fragments) and authorization code flow 
+  ///(query parameters).
+  ///
+  ///**Requirements:**
+  ///- Must be valid HTML with proper DOCTYPE declaration or HTML tags
+  ///- Should include `<head>`, `<body>`, and basic HTML structure
+  ///- The authentication script will be automatically injected before `</body>` or `</html>`
+  ///
+  ///**Injected Script Handles:**
+  ///- OAuth2 response parsing (fragments and query parameters)
+  ///- Token submission to `/token` endpoint
+  ///- Error handling and user feedback via custom events
+  ///
+  ///**Highly Recommended:** Use the exposed custom events to handle UI state 
+  ///changes in your HTML page. The injected script dispatches the following events:
+  ///- `google-auth-success`: When authentication succeeds
+  ///- `google-auth-error`: When authentication fails  
+  ///- `google-auth-token-processing`: When token processing begins
+  ///
+  ///**Example:**
+  ///```dart
+  ///GoogleSignInParams(
+  ///  clientId: 'your-client-id',
+  ///  clientSecret: 'your-client-secret',
+  ///  customPostAuthPage: '''
+  ///<!DOCTYPE html>
+  ///<html>
+  ///  <head>
+  ///    <title>My App - Authentication</title>
+  ///    <style>
+  ///      body { font-family: Arial; text-align: center; }
+  ///      .container { max-width: 400px; margin: 50px auto; }
+  ///    </style>
+  ///  </head>
+  ///  <body>
+  ///    <div class="container">
+  ///      <h1>🔐 MyApp</h1>
+  ///      <p id="status">Processing authentication...</p>
+  ///    </div>
+  ///    <script>
+  ///      document.addEventListener('google-auth-success', function(event) {
+  ///        document.getElementById('status').textContent = 
+  ///          '✅ Success! You can close this window.';
+  ///      });
+  ///    </script>
+  ///  </body>
+  ///</html>''',
+  ///);
+  ///```
+  ///
+  ///If `null` (default), the built-in authentication page will be used.
   final String? customPostAuthPage;
 
   static Future<void> _defaultSaveAccessToken(String token) async {
