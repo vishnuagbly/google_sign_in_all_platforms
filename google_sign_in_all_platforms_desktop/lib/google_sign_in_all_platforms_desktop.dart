@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in_all_platforms_desktop/code_challenge.dart';
+import 'package:google_sign_in_all_platforms_desktop/html_script_injector.dart';
 import 'package:google_sign_in_all_platforms_interface/google_sign_in_all_platforms_interface.dart';
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
@@ -35,6 +37,7 @@ class GoogleSignInAllPlatformsDesktop
   static const String _kScopesSeparator = ' ';
   static const String _kDefaultPostAuthPagePath =
       'packages/google_sign_in_all_platforms_desktop/assets/post_auth_page.html';
+  CodeChallenge? codeChallenge;
 
   String get _redirectUri => 'http://localhost:${params.redirectPort}';
 
@@ -43,14 +46,32 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   Future<Response> _handleAccessCodeRoute(Request request) async {
-    final code = request.requestedUri.queryParametersAll['code']?.first;
-    await _getCredentialsFromAccessCode(code);
-    final htmlContent = params.customPostAuthPage ??
-        await rootBundle.loadString(_kDefaultPostAuthPagePath);
+    // final code = request.requestedUri.queryParametersAll['code']?.first;
+    // await _getCredentialsFromAccessCode(code);
+    final htmlContent = await HtmlScriptInjector.injectAuthScript(
+      params.customPostAuthPage ??
+          await rootBundle.loadString(_kDefaultPostAuthPagePath),
+    );
 
     return Response.ok(
       htmlContent,
       headers: {'content-type': 'text/html'},
+      encoding: utf8,
+    );
+  }
+
+  Future<Response> _handleTokenReceiver(Request request) async {
+    final payload = await request.readAsString();
+    final Map<String, dynamic> body =
+        jsonDecode(payload) as Map<String, dynamic>;
+    final code = body['code'] as String?;
+    await _getCredentialsFromAccessCode(code);
+    // final htmlContent = params.customPostAuthPage ??
+    //     await rootBundle.loadString(_kDefaultPostAuthPagePath);
+
+    return Response.ok(
+      jsonEncode({'status': 'ok'}),
+      headers: {'content-type': 'application/json'},
       encoding: utf8,
     );
   }
@@ -60,10 +81,11 @@ class GoogleSignInAllPlatformsDesktop
     final res = await http.post(
       Uri.https('oauth2.googleapis.com', '/token', {
         'client_id': params.clientId,
-        'client_secret': params.clientSecret,
+        // 'client_secret': params.clientSecret,
         'code': code,
         'grant_type': 'authorization_code',
         'redirect_uri': _redirectUri,
+        // 'code_verifier': codeChallenge!.codeVerifier,
       }),
     );
 
@@ -87,7 +109,9 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   shelf_router.Router _initializeRouter() {
-    return shelf_router.Router()..get('/', _handleAccessCodeRoute);
+    return shelf_router.Router()
+      ..get('/', _handleAccessCodeRoute)
+      ..post('/token', _handleTokenReceiver);
   }
 
   Future<void> _startServer(shelf_router.Router app) async {
@@ -105,14 +129,17 @@ class GoogleSignInAllPlatformsDesktop
   }
 
   void _launchUrl() {
+    codeChallenge = CodeChallenge();
     launchUrl(
       Uri.https('accounts.google.com', '/o/oauth2/v2/auth', {
         if (params.clientId != null) 'client_id': params.clientId,
-        'response_type': 'code',
+        'response_type': 'token',
         'redirect_uri': _redirectUri,
         'scope': params.scopes.join(_kScopesSeparator),
-        'access_type': 'offline',
+        // 'access_type': 'online',
         'prompt': 'consent',
+        // 'code_challenge': codeChallenge!.codeChallenge,
+        // 'code_challenge_method': 'S256',
       }),
     );
   }

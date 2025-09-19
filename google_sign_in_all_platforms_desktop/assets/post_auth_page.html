@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Successful</title>
+    <title>Authentication Processing</title>
     <style>
         :root {
             --light-bg: linear-gradient(135deg, #4facfe, #00f2fe);
@@ -69,8 +69,33 @@
 </head>
 <body>
 <div class="message-container">
-    <h1>Successfully Authenticated</h1>
-    <p>You may now close this tab.</p>
+    <h1 id="status">Processing Authentication...</h1>
+    <p id="message">Please wait while we complete your authentication.</p>
 </div>
+
+<script>
+    // UI update function
+    function updateUI(title, message, isSuccess = true) {
+        document.getElementById('status').textContent = title;
+        document.getElementById('message').textContent = message;
+
+        if (!isSuccess) {
+            document.querySelector('.message-container').style.background = 'rgba(255, 0, 0, 0.1)';
+        }
+    }
+
+    // Event listeners for Google Auth events (script will be injected dynamically)
+    document.addEventListener('google-auth-token-processing', function(event) {
+        updateUI('Processing Token...', event.detail.message || 'Sending access token to server...');
+    });
+
+    document.addEventListener('google-auth-success', function(event) {
+        updateUI('Authentication Successful!', event.detail.message || 'You may now close this tab.');
+    });
+
+    document.addEventListener('google-auth-error', function(event) {
+        updateUI('Authentication Failed', event.detail.message || 'An error occurred during authentication.', false);
+    });
+</script>
 </body>
 </html>
