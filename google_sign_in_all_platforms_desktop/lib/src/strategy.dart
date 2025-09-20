@@ -12,6 +12,8 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../html_script_injector.dart';
+
 abstract class SignInStrategy {
   final GoogleSignInAllPlatformsDesktop interface;
   @protected
@@ -34,7 +36,7 @@ abstract class SignInStrategy {
   }
 
   static SignInStrategy from(GoogleSignInAllPlatformsDesktop interface) {
-    if (_getClientSecret(interface) == null) {
+    if (_getClientSecret(interface) != null) {
       return ImplicitStrategy(interface);
     }
     return PKCEStrategy(interface);
@@ -50,7 +52,10 @@ abstract class SignInStrategy {
 
   @protected
   Future<Response> handleRedirectRoute(Request request) async {
-    return createHTMLResponse(await customAuthPageHtmlContent);
+    final htmlContent = await HtmlScriptInjector.injectAuthScript(
+      await customAuthPageHtmlContent,
+    );
+    return createHTMLResponse(htmlContent);
   }
 
   @protected

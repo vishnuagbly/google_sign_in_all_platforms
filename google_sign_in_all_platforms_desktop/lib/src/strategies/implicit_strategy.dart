@@ -5,7 +5,6 @@ import 'package:google_sign_in_all_platforms_desktop/src/strategy.dart';
 import 'package:shelf/shelf.dart';
 
 import '../../google_sign_in_all_platforms_desktop.dart';
-import '../../html_script_injector.dart';
 
 class ImplicitStrategy extends SignInStrategy {
   ImplicitStrategy(super.interface) {
@@ -24,7 +23,7 @@ class ImplicitStrategy extends SignInStrategy {
       return Response.internalServerError(body: body);
     }
 
-    body[SignInStrategy.kScopeCredsKey] ??= interface.params.scopes;
+    _ensureScopes(body);
     completeSignIn(GoogleSignInCredentials.fromJson(body));
     return Response.ok(
       jsonEncode({'status': 'ok'}),
@@ -33,14 +32,15 @@ class ImplicitStrategy extends SignInStrategy {
     );
   }
 
-  @override
-  Future<Response> handleRedirectRoute(Request request) async {
-    final htmlContent = await HtmlScriptInjector.injectAuthScript(
-      interface.params.customPostAuthPage ??
-          await rootBundle.loadString(SignInStrategy.kDefaultPostAuthPagePath),
-    );
-
-    return createHTMLResponse(htmlContent);
+  void _ensureScopes(Map<String, dynamic> body) {
+    final scopes = body[SignInStrategy.kScopeCredsKey];
+    if (scopes is String) {
+      body[SignInStrategy.kScopeCredsKey] =
+          scopes.split(SignInStrategy.kScopesSeparator);
+    }
+    if (scopes == null) {
+      body[SignInStrategy.kScopeCredsKey] = interface.params.scopes;
+    }
   }
 
   @override

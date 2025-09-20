@@ -27,10 +27,16 @@ class PKCEStrategy extends SignInStrategy {
 
   @override
   Future<Response> handleRedirectRoute(Request request) async {
-    final code = request.requestedUri.queryParametersAll['code']?.first;
-    await _getCredentialsFromAccessCode(code);
-
-    return super.handleRedirectRoute(request);
+    try {
+      await _getCredentialsFromAccessCode(request.url.queryParameters['code']);
+      return super.handleRedirectRoute(request);
+    } catch (err) {
+      completeSignInError(err);
+      return Response.internalServerError(body: {
+        'status': '500',
+        'message': 'Internal Server Error, Could Not Authenticate',
+      });
+    }
   }
 
   Future<void> _getCredentialsFromAccessCode(String? code) async {
@@ -59,10 +65,9 @@ class PKCEStrategy extends SignInStrategy {
       credsMap[SignInStrategy.kScopeCredsKey] =
           (credsMap[SignInStrategy.kScopeCredsKey]! as String).split(' ');
       completeSignIn(GoogleSignInCredentials.fromJson(credsMap));
+      return;
     }
 
-    completeSignInError(
-      PlatformException(code: 'TOKEN_${res.statusCode}', message: body),
-    );
+    PlatformException(code: 'TOKEN_${res.statusCode}', message: body);
   }
 }
