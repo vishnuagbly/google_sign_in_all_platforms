@@ -36,7 +36,7 @@ abstract class SignInStrategy {
   }
 
   static SignInStrategy from(GoogleSignInAllPlatformsDesktop interface) {
-    if (_getClientSecret(interface) != null) {
+    if (_getClientSecret(interface) == null) {
       return ImplicitStrategy(interface);
     }
     return PKCEStrategy(interface);
