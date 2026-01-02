@@ -18,6 +18,7 @@ class GoogleSignInParams {
     ],
     this.redirectPort = 8000,
     this.clientId,
+    this.uwpClientId,
     this.clientSecret,
     this.customPostAuthPage,
   });
@@ -54,19 +55,25 @@ class GoogleSignInParams {
   ///Google Project Client Id, it should be of "web" type.
   final String? clientId;
 
-  ///Required and Only used in case of Desktop
+  ///Optional: Recommended, to prevent auto-logout after one hour.
+  ///OR, add [uwpClientId]
   ///
   ///Google Project Client Secret, it should of "web' type.
   final String? clientSecret;
+
+  /// Optional: Only used in case of Desktop Apps.
+  ///
+  /// This is to prevent use of clientSecret in case of desktop apps.
+  final String? uwpClientId;
 
   ///Custom HTML page to display during the authentication process.
   ///
   ///**Desktop platforms only** - This parameter is ignored on mobile and web.
   ///
-  ///When provided, this HTML content will be used instead of the default 
-  ///authentication page. The plugin will inject a JavaScript script into your 
-  ///HTML that is required for Google's Implicit Authentication to handle OAuth2 
-  ///responses from both implicit flow (fragments) and authorization code flow 
+  ///When provided, this HTML content will be used instead of the default
+  ///authentication page. The plugin will inject a JavaScript script into your
+  ///HTML that is required for Google's Implicit Authentication to handle OAuth2
+  ///responses from both implicit flow (fragments) and authorization code flow
   ///(query parameters).
   ///
   ///**Requirements:**
@@ -79,10 +86,10 @@ class GoogleSignInParams {
   ///- Token submission to `/token` endpoint
   ///- Error handling and user feedback via custom events
   ///
-  ///**Highly Recommended:** Use the exposed custom events to handle UI state 
+  ///**Highly Recommended:** Use the exposed custom events to handle UI state
   ///changes in your HTML page. The injected script dispatches the following events:
   ///- `google-auth-success`: When authentication succeeds
-  ///- `google-auth-error`: When authentication fails  
+  ///- `google-auth-error`: When authentication fails
   ///- `google-auth-token-processing`: When token processing begins
   ///
   ///**Example:**
@@ -107,7 +114,7 @@ class GoogleSignInParams {
   ///    </div>
   ///    <script>
   ///      document.addEventListener('google-auth-success', function(event) {
-  ///        document.getElementById('status').textContent = 
+  ///        document.getElementById('status').textContent =
   ///          '✅ Success! You can close this window.';
   ///      });
   ///    </script>
