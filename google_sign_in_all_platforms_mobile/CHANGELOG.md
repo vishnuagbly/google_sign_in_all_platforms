@@ -1,3 +1,6 @@
+## 0.2.1
+Updated compileSdkVersion to 36 in android/build.gradle
+
 ## 0.2.0
 
 ### Added

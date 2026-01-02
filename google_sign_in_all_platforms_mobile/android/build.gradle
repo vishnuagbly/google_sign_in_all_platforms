@@ -29,7 +29,7 @@ android {
         namespace 'com.vishnuworld.google_sign_in_all_platforms_mobile'
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 36
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
