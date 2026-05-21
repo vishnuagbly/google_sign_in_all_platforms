@@ -1,3 +1,6 @@
+## 2.0.3
+Updated package description.
+
 ## 2.0.2
 Fixed Migration Checklist in README
 
