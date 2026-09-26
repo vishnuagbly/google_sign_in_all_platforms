@@ -1,3 +1,8 @@
+## Unreleased
+
+### Fixed
+- Removed the unused macOS native plugin template so the Dart-only macOS implementation does not require CocoaPods or trigger Flutter's Swift Package Manager compatibility warning.
+
 ## 0.2.0
 
 ### Added
